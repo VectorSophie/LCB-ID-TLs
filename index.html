@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LCB ID Translations</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="assets/mouse_on.png" as="image">
+  <link rel="preload" href="assets/sounds/hover.mp3" as="audio">
+  <link rel="preload" href="assets/sounds/click.mp3" as="audio">
+</head>
+<body>
+<a href="https://www.youtube.com/@NotherWael" target="_blank">
+  <img src="assets/channels4_profile.jpg" alt="YouTube Profile" id="youtube-profile">
+</a>
+
+<a href="https://github.com/NotherWael/LCB-TLS" target="_blank" class="github-link">
+  Link To Github Repo
+</a>
+<div class="overlay">
+  <div class="content mikodacs-text">
+    <h1>LCB Identities - Untranslated Voicelines Translated to English</h1>
+    <p>Updated 21th April - Remember Translations can always be wrong!<br>(remember to change repo to LCB ID TLs)</p>
+
+    <!-- Image links -->
+    <div class="image-gallery">
+      <a href="pages/Yi_Sang.html">
+        <img src="assets/Yi_Sang_ID_Photo_1.png" alt="Image 1">
+      </a>
+      <a href="pages/Faust.html">
+        <img src="assets/Faust_ID_Photo_1.png" alt="Image 2">
+      </a>
+      <a href="pages/Don_Quixote.html">
+        <img src="assets/Don_Quixote_ID_Photo_1.png" alt="Image 3">
+      </a>
+      <a href="pages/Ryōshū.html">
+        <img src="assets/Ryōshū_ID_Photo_1.png" alt="Image 4">
+      </a>
+      <a href="pages/Meursault.html">
+        <img src="assets/Meursault_ID_Photo_1.png" alt="Image 5">
+      </a>
+      <a href="pages/Hong_Lu.html">
+        <img src="assets/Hong_Lu_ID_Photo_1.png" alt="Image 6">
+      </a>
+      <a href="page7.html">
+        <img src="assets/Heathcliff_ID_Photo_1.png" alt="Image 7">
+      </a>
+      <a href="page8.html">
+        <img src="assets/Ishmael_ID_Photo_1.png" alt="Image 8">
+      </a>
+      <a href="page9.html">
+        <img src="assets/Rodion_ID_Photo_1.png" alt="Image 9">
+      </a>
+      <a href="page10.html">
+        <img src="assets/Sinclair_ID_Photo_1.png" alt="Image 10">
+      </a>
+      <a href="page11.html">
+        <img src="assets/Outis_ID_Photo_1.png" alt="Image 11">
+      </a>
+      <a href="page12.html">
+        <img src="assets/Gregor_ID_Photo_1.png" alt="Image 12">
+      </a>
+    </div>
+  </div>
+</div>
+
+<audio src="assets/sounds/hover.mp3" preload="auto" style="display:none;"></audio>
+<audio src="assets/sounds/click.mp3" preload="auto" style="display:none;"></audio>
+
+<script>
+  const hoverSoundTemplate = new Audio('assets/UI_Hover.wav');
+  hoverSoundTemplate.volume = 0.7;
+
+  const clickSound = new Audio('assets/UI_Click.wav');
+  clickSound.volume = 0.8;
+
+  let canClickPlay = true;
+
+  const galleryImages = document.querySelectorAll('.image-gallery a img');
+
+  galleryImages.forEach(img => {
+    img.addEventListener('mouseenter', () => {
+      const hoverSound = hoverSoundTemplate.cloneNode();
+      hoverSound.play().catch(() => {
+      });
+    });
+
+    img.addEventListener('click', () => {
+      if (canClickPlay) {
+        clickSound.currentTime = 0;
+        clickSound.play().catch(() => {
+        });
+        canClickPlay = false;
+        setTimeout(() => { canClickPlay = true; }, 300);
+      }
+    });
+  });
+</script>
+
+
+
+</body>
+</html>
