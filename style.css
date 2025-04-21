@@ -51,11 +51,6 @@ button:hover {
   cursor: url('assets/mouse_on.png'), pointer;
 }
 
-body {
-  cursor: none; /* Hides system cursor */
-}
-
-
 .overlay {
   background-color: rgba(0, 0, 0, 0.6);
   min-height: 100vh;
