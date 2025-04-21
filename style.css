@@ -30,23 +30,30 @@ html, body {
 body {
   background: url('assets/background.png') no-repeat center center fixed;
   background-size: cover;
-  cursor: url('assets/mouse_off.png'), auto;
 }
 
 body {
-  background: url('assets/background.png') no-repeat center center fixed;
-  background-size: cover;
-  cursor: url('assets/mouse_off.png') 0 0, auto; /* Clean cursor setup */
-}
-
-body:active {
-  cursor: url('assets/mouse_on.png') 0 0, auto;
+  cursor: url('assets/mouse_off.cur'), auto;
 }
 
 a:hover,
-.image-gallery a:hover,
-button:hover {
-  cursor: url('assets/mouse_on.png') 0 0, pointer;
+button:hover,
+.image-gallery a:hover img,
+body:active {
+  cursor: url('assets/mouse_on.cur'), pointer;
+}
+
+a,
+button,
+.image-gallery a img {
+  cursor: url('assets/mouse_off.cur'), auto;
+}
+
+a:hover,
+button:hover,
+.image-gallery a:hover img,
+body:active {
+  cursor: url('assets/mouse_on.cur'), pointer;
 }
 
 
