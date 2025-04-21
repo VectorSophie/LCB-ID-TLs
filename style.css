@@ -33,23 +33,22 @@ body {
   cursor: url('assets/mouse_off.png'), auto;
 }
 
+body {
+  background: url('assets/background.png') no-repeat center center fixed;
+  background-size: cover;
+  cursor: url('assets/mouse_off.png') 0 0, auto; /* Clean cursor setup */
+}
+
 body:active {
-  cursor: url('assets/mouse_on.png'), auto;
+  cursor: url('assets/mouse_on.png') 0 0, auto;
 }
 
 a:hover,
 .image-gallery a:hover,
 button:hover {
-  cursor: url('assets/mouse_on.png'), pointer;
+  cursor: url('assets/mouse_on.png') 0 0, pointer;
 }
 
-.image-gallery a img {
-  cursor: url('assets/mouse_off.png'), auto;
-}
-
-.image-gallery a img:hover {
-  cursor: url('assets/mouse_on.png'), pointer;
-}
 
 .overlay {
   background-color: rgba(0, 0, 0, 0.6);
