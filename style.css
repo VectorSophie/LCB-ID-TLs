@@ -144,6 +144,14 @@ body:active {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+.image-gallery a img.pending-animation {
+  pointer-events: none;
+}
+
+.image-gallery a img.hover-enabled {
+  pointer-events: auto;
+}
+
 #back-button {
   background: none;
   border: none;
@@ -178,11 +186,12 @@ body:active {
 }
 
 .image-gallery.animate img {
-  pointer-events: none;
+  opacity: 0;
+  transform: translateY(30px);
 }
 
 .image-gallery.animate img.fade-in {
-  pointer-events: auto;
+  animation: fadeInUp 0.5s ease forwards;
 }
 
 #youtube-profile {

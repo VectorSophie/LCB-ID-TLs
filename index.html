@@ -91,20 +91,21 @@
     backButton.style.display = 'none';
 
     // Animate gallery images
-    const images = gallery.querySelectorAll('img');
-    gallery.classList.add('animate');
+images.forEach((img, index) => {
+  img.classList.remove('fade-in', 'hover-enabled'); // reset state
+  img.classList.add('pending-animation'); // block hover during animation
 
-    images.forEach((img, index) => {
-      img.classList.remove('fade-in'); // reset
-      setTimeout(() => {
-        img.classList.add('fade-in');
-      }, index * 100);
+  setTimeout(() => {
+    img.classList.add('fade-in');
+
+    // Wait for fade-in animation to complete before allowing hover
+    img.addEventListener('animationend', function handler() {
+      img.classList.remove('pending-animation');
+      img.classList.add('hover-enabled');
+      img.removeEventListener('animationend', handler);
     });
-
-    setTimeout(() => {
-      gallery.classList.remove('animate');
-    }, images.length * 100 + 500);
-  });
+  }, index * 100);
+});
 
   // Add hover/click sounds to gallery images
   galleryLinks.forEach(link => {
@@ -154,5 +155,11 @@
     backButton.style.display = 'block';
   }
 </script>
+
+
+
+
+
+
 </body>
 </html>
