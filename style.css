@@ -276,34 +276,45 @@ body:active {
 .spreadsheet table {
   width: 100%;
   border-collapse: collapse;
-  background: rgba(0, 0, 0, 0.7);
-  margin-top: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  margin: 20px 0;
 }
 
 .spreadsheet th, .spreadsheet td {
-  padding: 12px;
-  border: 1px solid #fff;
-  text-align: left;
-  vertical-align: top;
+  padding: 12px 15px;
+  border: 1px solid #ffffff50;
+  color: #fff;
+  font-size: 0.9em;
 }
 
 .spreadsheet th {
-  background: rgba(255, 255, 255, 0.1);
+  background: #ffffff15;
+  font-weight: 600;
+}
+
+.spreadsheet td {
+  background: #00000030;
 }
 
 .spreadsheet audio {
-  max-width: 200px;
+  width: 200px;
+  height: 35px;
+}
+
+.spreadsheet audio::-webkit-media-controls-panel {
+  background-color: #ffffff15;
 }
 
 .voiceline-detail {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 30px;
+  grid-template-columns: 300px 1fr;
+  gap: 40px;
   align-items: start;
+  padding: 20px;
 }
 
 .detail-image {
-  max-width: 100%;
+  width: 100%;
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  border: 2px solid #ffffff30;
 }
