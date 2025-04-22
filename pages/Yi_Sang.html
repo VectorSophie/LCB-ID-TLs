@@ -3,15 +3,162 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Yi Sang - TLs</title>
+  <title>LCB ID Translations</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preload" href="assets/mouse_on.png" as="image">
+  <link rel="preload" href="assets/sounds/hover.mp3" as="audio">
+  <link rel="preload" href="assets/sounds/click.mp3" as="audio">
 </head>
 <body>
-  <div class="overlay">
-    <div class="content">
-      <h1>TBD</h1>
-      <p>TBD</p>
+<a href="https://www.youtube.com/@NotherWael" target="_blank">
+  <img src="assets/channels4_profile.jpg" alt="YouTube Profile" id="youtube-profile">
+</a>
+
+<a href="https://github.com/NotherWael/LCB-TLS" target="_blank" class="github-link">
+  Link To Github Repo
+</a>
+
+<!-- Back Button -->
+<button id="back-button" style="display:none;">
+  <img src="assets/Back.png" alt="Back" />
+</button>
+
+
+<div class="overlay">
+  <div class="content mikodacs-text">
+    <h1>LCB Identities - Untranslated Voicelines Translated to English</h1>
+    <p>Updated 21th April - Remember Translations can always be wrong!</p>
+
+    <!-- Image links -->
+    <div class="image-gallery">
+      <a href="pages/Yi_Sang.html"><img src="assets/Yi_Sang_ID_Photo_1.png" alt="Image 1"></a>
+      <a href="pages/Faust.html"><img src="assets/Faust_ID_Photo_1.png" alt="Image 2"></a>
+      <a href="pages/Don_Quixote.html"><img src="assets/Don_Quixote_ID_Photo_1.png" alt="Image 3"></a>
+      <a href="pages/Ryōshū.html"><img src="assets/Ryōshū_ID_Photo_1.png" alt="Image 4"></a>
+      <a href="pages/Meursault.html"><img src="assets/Meursault_ID_Photo_1.png" alt="Image 5"></a>
+      <a href="pages/Hong_Lu.html"><img src="assets/Hong_Lu_ID_Photo_1.png" alt="Image 6"></a>
+      <a href="pages/Heathcliff.html"><img src="assets/Heathcliff_ID_Photo_1.png" alt="Image 7"></a>
+      <a href="pages/Ishmael.html"><img src="assets/Ishmael_ID_Photo_1.png" alt="Image 8"></a>
+      <a href="pages/Rodion.html"><img src="assets/Rodion_ID_Photo_1.png" alt="Image 9"></a>
+      <a href="pages/Sinclair.html"><img src="assets/Sinclair_ID_Photo_1.png" alt="Image 10"></a>
+      <a href="pages/Outis.html"><img src="assets/Outis_ID_Photo_1.png" alt="Image 11"></a>
+      <a href="pages/Gregor.html"><img src="assets/Gregor_ID_Photo_1.png" alt="Image 12"></a>
     </div>
+
+    <!-- Dynamic content -->
+    <div id="dynamic-content" class="dynamic-content"></div>
   </div>
 </div>
+
+<!-- Sounds -->
+<audio src="assets/sounds/hover.mp3" preload="auto" style="display:none;"></audio>
+<audio src="assets/sounds/click.mp3" preload="auto" style="display:none;"></audio>
+
+<script>
+  const hoverSoundTemplate = new Audio('assets/UI_Hover.wav');
+  hoverSoundTemplate.volume = 0.7;
+
+  const clickSound = new Audio('assets/UI_Click.wav');
+  clickSound.volume = 0.8;
+
+  let canClickPlay = true;
+  const cache = new Map();
+
+  const gallery = document.querySelector('.image-gallery');
+  const galleryLinks = document.querySelectorAll('.image-gallery a');
+  const dynamicContent = document.getElementById('dynamic-content');
+  const backButton = document.getElementById('back-button');
+
+  // Add hover & click sounds to back button
+  backButton.addEventListener('mouseenter', () => {
+    const hoverSound = hoverSoundTemplate.cloneNode();
+    hoverSound.play().catch((e) => {
+      console.warn("Hover sound failed to play:", e);
+    });
+  });
+
+  backButton.addEventListener('click', () => {
+    // Play click sound
+    clickSound.currentTime = 0;
+    clickSound.play().catch((e) => {
+      console.warn("Click sound failed to play:", e);
+    });
+
+    // Reset content
+    dynamicContent.innerHTML = '';
+    dynamicContent.classList.remove('visible');
+    gallery.style.display = 'grid';
+    backButton.style.display = 'none';
+
+    // Animate gallery images
+    const images = gallery.querySelectorAll('img');
+    gallery.classList.add('animate');
+
+    images.forEach((img, index) => {
+      img.classList.remove('fade-in'); // reset
+      setTimeout(() => {
+        img.classList.add('fade-in');
+      }, index * 100);
+    });
+
+    setTimeout(() => {
+      gallery.classList.remove('animate');
+    }, images.length * 100 + 500);
+  });
+
+  // Add hover/click sounds to gallery images
+  galleryLinks.forEach(link => {
+    const img = link.querySelector('img');
+
+    img.addEventListener('mouseenter', () => {
+      const hoverSound = hoverSoundTemplate.cloneNode();
+      hoverSound.play().catch(() => {});
+    });
+
+    img.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      if (canClickPlay) {
+        clickSound.currentTime = 0;
+        clickSound.play().catch(() => {});
+        canClickPlay = false;
+        setTimeout(() => { canClickPlay = true; }, 300);
+      }
+
+      const targetUrl = link.getAttribute('href');
+
+      if (cache.has(targetUrl)) {
+        showContent(cache.get(targetUrl));
+      } else {
+        fetch(targetUrl)
+          .then(response => response.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const content = doc.body.innerHTML;
+            cache.set(targetUrl, content);
+            showContent(content);
+          })
+          .catch(err => {
+            dynamicContent.innerHTML = "<p>Error loading content.</p>";
+            console.error(err);
+          });
+      }
+    });
+  });
+
+  function showContent(html) {
+    gallery.style.display = 'none';
+    dynamicContent.innerHTML = html;
+    dynamicContent.classList.add('visible');
+    backButton.style.display = 'block';
+  }
+</script>
+
+
+
+
+
+
+</body>
+</html>

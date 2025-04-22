@@ -149,15 +149,16 @@ body:active {
   border: none;
   padding: 0;
   position: fixed;
-  top: 20px;
+  top: 0px;
   left: 20px;
+  bottom: 0px;
   z-index: 9999;
   cursor: url('assets/mouse_on.cur'), pointer;
 }
 
 #back-button img {
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   transition: transform 0.2s ease;
 }
 
