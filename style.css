@@ -139,17 +139,13 @@ body:active {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.image-gallery a:hover img {
+.image-gallery a img.hover-enabled:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .image-gallery a img.pending-animation {
   pointer-events: none;
-}
-
-.image-gallery a img.hover-enabled {
-  pointer-events: auto;
 }
 
 #back-button {

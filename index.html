@@ -96,10 +96,12 @@
 
     images.forEach((img, index) => {
       img.classList.remove('fade-in', 'hover-enabled');
-      img.classList.add('pending-animation'); // prevent hover
+      img.classList.add('pending-animation'); // disable hover initially
 
       setTimeout(() => {
         img.classList.add('fade-in');
+
+        // Wait for individual fade-in animation to end
         img.addEventListener('animationend', function handler() {
           img.classList.remove('pending-animation');
           img.classList.add('hover-enabled');
@@ -118,6 +120,7 @@
     const img = link.querySelector('img');
 
     img.addEventListener('mouseenter', () => {
+      // Only allow hover effect after animation
       if (!img.classList.contains('hover-enabled')) return;
       const hoverSound = hoverSoundTemplate.cloneNode();
       hoverSound.play().catch(() => {});
@@ -162,6 +165,7 @@
     backButton.style.display = 'block';
   }
 </script>
+
 
 
 
