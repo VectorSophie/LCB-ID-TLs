@@ -184,23 +184,23 @@
   });
 
   function showVoicelineDetail(imgElement) {
-    // Split data attributes into arrays
-    const voicelines = imgElement.dataset.voiceline?.split('|') || [];
-    const translations = imgElement.dataset.translation?.split('|') || [];
-    const audios = imgElement.dataset.audio?.split('|') || [];
-    const notes = imgElement.dataset.notes?.split('|') || [];
+    // Split data attributes into arrays with proper handling
+    const voicelines = (imgElement.dataset.voiceline || "").split('|').map(v => v.trim());
+    const translations = (imgElement.dataset.translation || "").split('|').map(v => v.trim());
+    const audios = (imgElement.dataset.audio || "").split('|').map(v => v.trim());
+    const notes = (imgElement.dataset.notes || "").split('|').map(v => v.trim());
 
     // Create table rows
-    const maxEntries = Math.max(voicelines.length, translations.length, audios.length, notes.length);
+    const maxEntries = Math.max(...[voicelines, translations, audios, notes].map(arr => arr.length));
     const rows = [];
     
     for (let i = 0; i < maxEntries; i++) {
       rows.push(`
         <tr>
-          <td>${voicelines[i]?.trim() || ''}</td>
-          <td>${translations[i]?.trim() || ''}</td>
-          <td>${audios[i]?.trim() ? `<audio controls src="${audios[i].trim()}"></audio>` : ''}</td>
-          <td>${notes[i]?.trim() || ''}</td>
+          <td>${voicelines[i] || ''}</td>
+          <td>${translations[i] || ''}</td>
+          <td>${audios[i] ? `<audio controls src="${audios[i]}"></audio>` : ''}</td>
+          <td>${notes[i] || ''}</td>
         </tr>
       `);
     }
