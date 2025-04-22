@@ -22,44 +22,53 @@
     <div id="expanded-view-container"></div>
   </div>
 
-  <script>
-    const gallery = document.getElementById('yi-gallery');
-    const expandedViewContainer = document.getElementById('expanded-view-container');
+<script>
+  const gallery = document.getElementById('yi-gallery');
+  const expandedViewContainer = document.getElementById('expanded-view-container');
 
-    const voicelines = [
-      ["그건... 정말이지.", "That is... truly.", "Ambiguous tone, possibly reflecting disbelief."],
-      ["끝은 정해져 있다.", "The end is predetermined.", "Reference to fatalism."],
-      ["이건 내 의지가 아니다.", "This is not my will.", "Possibly rejecting responsibility."],
-      ["내게 말 걸지 마라.", "Don’t speak to me.", "Blunt dismissal, common in his character."],
-      ["나는 이미 알고 있다.", "I already know.", "Possibly referencing foreknowledge."]
-    ];
+  const fullImagePaths = [
+    "../assets/Yi_Sang/BloomSang_full.png",
+    "../assets/Yi_Sang/WSang_full.png",
+    "../assets/Yi_Sang/RingSang_full.png",
+    "../assets/Yi_Sang/ButterflySang_full.png",
+    "../assets/Yi_Sang/LiuSang_full.png"
+  ];
 
-    gallery.querySelectorAll('img').forEach((img, idx) => {
-      img.addEventListener('click', () => {
-        const fullImagePath = img.getAttribute('src').replace('Yi_Sang_', 'Yi_Sang_Full_');
+  const voicelines = [
+    ["그건... 정말이지.", "That is... truly.", "Ambiguous tone, possibly reflecting disbelief."],
+    ["끝은 정해져 있다.", "The end is predetermined.", "Reference to fatalism."],
+    ["이건 내 의지가 아니다.", "This is not my will.", "Possibly rejecting responsibility."],
+    ["내게 말 걸지 마라.", "Don’t speak to me.", "Blunt dismissal, common in his character."],
+    ["나는 이미 알고 있다.", "I already know.", "Possibly referencing foreknowledge."]
+  ];
 
-        expandedViewContainer.innerHTML = `
-          <div class="expanded-view">
-            <img class="expanded-image" src="${fullImagePath}" alt="Expanded Yi Sang">
-            <table class="voiceline-table">
-              <thead>
-                <tr><th>Voiceline</th><th>Translation</th><th>Notes</th></tr>
-              </thead>
-              <tbody>
-                ${voicelines.map(row => `
-                  <tr>
-                    <td>${row[0]}</td>
-                    <td>${row[1]}</td>
-                    <td>${row[2]}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          </div>
-        `;
-      });
+  gallery.querySelectorAll('img').forEach((img, idx) => {
+    img.addEventListener('click', () => {
+      const fullImagePath = fullImagePaths[idx]; // Use the matching full version
+
+      expandedViewContainer.innerHTML = `
+        <div class="expanded-view">
+          <img class="expanded-image" src="${fullImagePath}" alt="Expanded Yi Sang">
+          <table class="voiceline-table">
+            <thead>
+              <tr><th>Voiceline</th><th>Translation</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              ${voicelines.map(row => `
+                <tr>
+                  <td>${row[0]}</td>
+                  <td>${row[1]}</td>
+                  <td>${row[2]}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
     });
-  </script>
+  });
+</script>
+
 
 </body>
 </html>
