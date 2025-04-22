@@ -7,7 +7,7 @@ body {
     }
 
     .background-fade {
-      background: url('../assets/Yi_Sang_BG.jpg') center/cover no-repeat fixed;
+      background: url('../assets/Yi_Sang/LCB_YiSang.png') center/cover no-repeat fixed;
       transition: background 1s ease-in-out;
       padding: 20px;
       min-height: 100vh;
