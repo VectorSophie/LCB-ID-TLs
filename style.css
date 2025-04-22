@@ -156,15 +156,9 @@ button,
 /* Spreadsheet Styles */
 .spreadsheet table {
   width: 100%;
-  table-layout: fixed;
   border-collapse: collapse;
   background: rgba(0, 0, 0, 0.8);
   margin: 20px 0;
-}
-
-.spreadsheet {
-  overflow-x: auto;
-  max-width: 100%;
 }
 
 .spreadsheet th, .spreadsheet td {
