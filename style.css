@@ -156,9 +156,15 @@ button,
 /* Spreadsheet Styles */
 .spreadsheet table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   background: rgba(0, 0, 0, 0.8);
   margin: 20px 0;
+}
+
+.spreadsheet {
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .spreadsheet th, .spreadsheet td {
@@ -179,17 +185,28 @@ button,
   color: #fff;
 }
 
+.spreadsheet td {
+  white-space: pre-wrap;
+}
+
 /* Fixed Translation Column Styles */
 .spreadsheet td:nth-child(2) {
   font-family: 'Pretendard', sans-serif;
   color: #d4e1e8 !important;
   font-weight: 500;
   letter-spacing: normal; /* Added to fix spacing */
+  min-width: 400px; /* Adjust this value as needed */
+  max-width: 600px; /* Maximum width before text wraps */
+  width: 30%; /* Percentage-based width */
+  white-space: normal;
+  word-break: break-word;
+  padding: 8px 12px;
+  line-height: 1.5;
 }
 
 .spreadsheet audio {
-  width: 200px;
-  height: 35px;
+  width: 100px;
+  height: 20px;
 }
 
 .spreadsheet audio::-webkit-media-controls-panel {
