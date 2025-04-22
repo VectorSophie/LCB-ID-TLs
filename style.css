@@ -198,6 +198,16 @@ button,
   line-height: 1.5;
 }
 
+.spreadsheet td:nth-child(4) {
+  letter-spacing: normal; /* Added to fix spacing */
+  min-width: 400px; /* Adjust this value as needed */
+  max-width: 600px; /* Maximum width before text wraps */
+  word-break: break-word;
+  padding: 8px 12px;
+  line-height: 1.5;
+}
+
+
 .spreadsheet audio {
   width: 100px;
   height: 20px;
@@ -214,7 +224,7 @@ button,
 
 .voiceline-detail {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 0px 0fr;
   gap: 40px;
   align-items: start;
   padding: 20px;
