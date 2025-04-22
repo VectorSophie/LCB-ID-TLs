@@ -228,11 +228,12 @@ button,
   height: 100%;
   background-size: cover;
   background-position: center;
+  z-index: -2; /* Changed from -1 */
   transition: opacity 1s ease-in-out;
-  z-index: -1;
 }
 
 #new-bg {
+  z-index: -1; /* Higher than current-bg */
   display: none;
   opacity: 0;
 }
