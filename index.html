@@ -17,6 +17,7 @@
 <a href="https://github.com/NotherWael/LCB-TLS" target="_blank" class="github-link">
   Link To Github Repo
 </a>
+
 <div class="overlay">
   <div class="content mikodacs-text">
     <h1>LCB Identities - Untranslated Voicelines Translated to English</h1>
@@ -61,9 +62,13 @@
         <img src="assets/Gregor_ID_Photo_1.png" alt="Image 12">
       </a>
     </div>
+
+    <!-- This is where the dynamic content will be loaded -->
+    <div id="dynamic-content" class="dynamic-content"></div>
   </div>
 </div>
 
+<!-- Sounds -->
 <audio src="assets/sounds/hover.mp3" preload="auto" style="display:none;"></audio>
 <audio src="assets/sounds/click.mp3" preload="auto" style="display:none;"></audio>
 
@@ -76,28 +81,48 @@
 
   let canClickPlay = true;
 
-  const galleryImages = document.querySelectorAll('.image-gallery a img');
+  const galleryLinks = document.querySelectorAll('.image-gallery a');
 
-  galleryImages.forEach(img => {
+  galleryLinks.forEach(link => {
+    const img = link.querySelector('img');
+
     img.addEventListener('mouseenter', () => {
       const hoverSound = hoverSoundTemplate.cloneNode();
-      hoverSound.play().catch(() => {
-      });
+      hoverSound.play().catch(() => {});
     });
 
-    img.addEventListener('click', () => {
+    img.addEventListener('click', (e) => {
+      e.preventDefault(); // prevent default navigation
+
       if (canClickPlay) {
         clickSound.currentTime = 0;
-        clickSound.play().catch(() => {
-        });
+        clickSound.play().catch(() => {});
         canClickPlay = false;
         setTimeout(() => { canClickPlay = true; }, 300);
       }
+
+      const targetUrl = link.getAttribute('href');
+      loadPageContent(targetUrl);
     });
   });
+
+  function loadPageContent(url) {
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const content = doc.body.innerHTML;
+
+        document.getElementById('dynamic-content').innerHTML = content;
+        window.scrollTo(0, 0);
+      })
+      .catch(err => {
+        document.getElementById('dynamic-content').innerHTML = "<p>Error loading content.</p>";
+        console.error(err);
+      });
+  }
 </script>
-
-
 
 </body>
 </html>
