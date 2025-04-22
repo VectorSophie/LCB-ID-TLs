@@ -113,26 +113,38 @@
     });
   });
 
-  function changeBackground(bgUrl) {
-    const currentBg = document.getElementById('current-bg');
-    const newBg = document.getElementById('new-bg');
+function changeBackground(bgUrl) {
+  const currentBg = document.getElementById('current-bg');
+  const newBg = document.getElementById('new-bg');
 
-    newBg.style.backgroundImage = `url(${bgUrl})`;
-    newBg.style.display = 'block';
-    
-    setTimeout(() => {
-      newBg.style.opacity = '1';
-      currentBg.style.opacity = '0';
-    }, 10);
+  // Reset transitions
+  newBg.style.transition = 'none';
+  currentBg.style.transition = 'none';
 
-    newBg.addEventListener('transitionend', function handler() {
-      currentBg.style.backgroundImage = newBg.style.backgroundImage;
-      currentBg.style.opacity = '1';
-      newBg.style.display = 'none';
-      newBg.style.opacity = '0';
-      newBg.removeEventListener('transitionend', handler);
-    });
-  }
+  // Set initial states
+  newBg.style.backgroundImage = `url(${bgUrl})`;
+  newBg.style.display = 'block';
+  newBg.style.opacity = '0';
+  currentBg.style.opacity = '1';
+
+  // Force reflow
+  void newBg.offsetHeight;
+
+  // Enable transitions
+  newBg.style.transition = 'opacity 1s ease-in-out';
+  currentBg.style.transition = 'opacity 1s ease-in-out';
+
+  // Start transition
+  newBg.style.opacity = '1';
+  currentBg.style.opacity = '0';
+
+  newBg.addEventListener('transitionend', function handler() {
+    currentBg.style.backgroundImage = newBg.style.backgroundImage;
+    currentBg.style.opacity = '1';
+    newBg.style.display = 'none';
+    newBg.removeEventListener('transitionend', handler);
+  }, { once: true });
+}
 
   galleryLinks.forEach(link => {
     const img = link.querySelector('img');

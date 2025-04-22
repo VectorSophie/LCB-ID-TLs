@@ -82,13 +82,6 @@ button,
   transform: translateY(0);
 }
 
-#bottom-nav {
-  display: none;
-  justify-content: flex-start;
-  padding: 20px;
-  margin-top: 20px;
-}
-
 .overlay {
   background-color: rgba(0, 0, 0, 0.0);
   min-height: 100vh;
@@ -112,29 +105,8 @@ button,
   margin: 0 auto;
 }
 
-/* Main Gallery Styles */
-.image-gallery {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 20px;
-  padding-top: 20px;
-  width: 100%;
-  overflow: visible;
-}
-
-.image-gallery a img {
-  width: 100%;
-  height: auto;
-  border-radius: 0px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.image-gallery a:hover img {
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Character Gallery Matching Styles */
+/* Gallery Styles */
+.image-gallery,
 .character-gallery {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -143,6 +115,7 @@ button,
   width: 100%;
 }
 
+.image-gallery a img,
 .character-gallery a img {
   width: 100%;
   height: auto;
@@ -150,6 +123,7 @@ button,
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.image-gallery a:hover img,
 .character-gallery a:hover img {
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -188,55 +162,6 @@ button,
   }
 }
 
-.image-gallery.animate img {
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.image-gallery.animate img.fade-in {
-  animation: fadeInUp 0.5s ease forwards;
-}
-
-#youtube-profile {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  cursor: pointer;
-  z-index: 9999;
-}
-
-#youtube-profile:hover {
-  transform: scale(1.1);
-  transition: transform 0.3s ease;
-}
-
-.github-link {
-  position: fixed;
-  bottom: 20px;
-  right: 100px;
-  color: white;
-  font-size: 14px;
-  font-family: 'Pretendard', sans-serif;
-  text-decoration: none;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 8px 12px;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
-  z-index: 10000;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.github-link:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-  transform: scale(1.05);
-  cursor: url('assets/mouse_on.png'), pointer;
-}
-
 /* Spreadsheet Styles */
 .spreadsheet table {
   width: 100%;
@@ -263,11 +188,12 @@ button,
   color: #fff;
 }
 
-/* Translation Column Specific Styles */
+/* Fixed Translation Column Styles */
 .spreadsheet td:nth-child(2) {
   font-family: 'Pretendard', sans-serif;
   color: #d4e1e8 !important;
   font-weight: 500;
+  letter-spacing: normal; /* Added to fix spacing */
 }
 
 .spreadsheet audio {
@@ -293,7 +219,7 @@ button,
   border: 2px solid #ffffff30;
 }
 
-/* Background Transitions */
+/* Background Transition Fix */
 .body-bg {
   position: fixed;
   top: 0;
