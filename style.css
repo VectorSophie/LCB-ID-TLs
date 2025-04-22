@@ -178,12 +178,11 @@ body:active {
 }
 
 .image-gallery.animate img {
-  opacity: 0;
-  transform: translateY(30px);
+  pointer-events: none;
 }
 
 .image-gallery.animate img.fade-in {
-  animation: fadeInUp 0.5s ease forwards;
+  pointer-events: auto;
 }
 
 #youtube-profile {
