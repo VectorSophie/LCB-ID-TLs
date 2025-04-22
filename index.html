@@ -34,12 +34,12 @@
       <a href="pages/Ryōshū.html"><img src="assets/Ryōshū_ID_Photo_1.png" alt="Image 4"></a>
       <a href="pages/Meursault.html"><img src="assets/Meursault_ID_Photo_1.png" alt="Image 5"></a>
       <a href="pages/Hong_Lu.html"><img src="assets/Hong_Lu_ID_Photo_1.png" alt="Image 6"></a>
-      <a href="Heathcliff.html"><img src="assets/Heathcliff_ID_Photo_1.png" alt="Image 7"></a>
-      <a href="Ishmael.html"><img src="assets/Ishmael_ID_Photo_1.png" alt="Image 8"></a>
-      <a href="Rodion.html"><img src="assets/Rodion_ID_Photo_1.png" alt="Image 9"></a>
-      <a href="Sinclair.html"><img src="assets/Sinclair_ID_Photo_1.png" alt="Image 10"></a>
-      <a href="Outis.html"><img src="assets/Outis_ID_Photo_1.png" alt="Image 11"></a>
-      <a href="Gregor.html"><img src="assets/Gregor_ID_Photo_1.png" alt="Image 12"></a>
+      <a href="pages/Heathcliff.html"><img src="assets/Heathcliff_ID_Photo_1.png" alt="Image 7"></a>
+      <a href="pages/Ishmael.html"><img src="assets/Ishmael_ID_Photo_1.png" alt="Image 8"></a>
+      <a href="pages/Rodion.html"><img src="assets/Rodion_ID_Photo_1.png" alt="Image 9"></a>
+      <a href="pages/Sinclair.html"><img src="assets/Sinclair_ID_Photo_1.png" alt="Image 10"></a>
+      <a href="pages/Outis.html"><img src="assets/Outis_ID_Photo_1.png" alt="Image 11"></a>
+      <a href="pages/Gregor.html"><img src="assets/Gregor_ID_Photo_1.png" alt="Image 12"></a>
     </div>
 
     <!-- Dynamic content -->
@@ -57,9 +57,6 @@
 
   const clickSound = new Audio('assets/UI_Click.wav');
   clickSound.volume = 0.8;
-
-  const appearSoundBase = new Audio('assets/UI_LORCardOver.wav');
-  appearSoundBase.volume = 0.6;
 
   let canClickPlay = true;
   const cache = new Map();
@@ -129,11 +126,6 @@
       img.classList.remove('fade-in');
       setTimeout(() => {
         img.classList.add('fade-in');
-
-        // Create and play sound clone
-        const appearSound = appearSoundBase.cloneNode();
-        appearSound.volume = 0.6;
-        appearSound.play().catch(() => {});
       }, index * 100);
     });
 
@@ -142,6 +134,7 @@
     }, images.length * 100 + 500);
   });
 </script>
+
 
 
 
