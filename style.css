@@ -156,6 +156,30 @@ body:active {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+#back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #222;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  font-size: 14px;
+  z-index: 10001;
+  opacity: 0.9;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#back-button:hover {
+  background-color: #333;
+  transform: scale(1.05);
+  opacity: 1;
+}
+
 #youtube-profile {
   position: fixed;
   top: 20px;
