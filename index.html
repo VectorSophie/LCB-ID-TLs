@@ -50,7 +50,6 @@
 <!-- Sounds -->
 <audio src="assets/sounds/hover.mp3" preload="auto" style="display:none;"></audio>
 <audio src="assets/sounds/click.mp3" preload="auto" style="display:none;"></audio>
-<audio id="appear-sound" src="assets/UI_LORCardOver.wav" preload="auto" style="display:none;"></audio>
 
 <script>
   const hoverSoundTemplate = new Audio('assets/UI_Hover.wav');
@@ -59,8 +58,8 @@
   const clickSound = new Audio('assets/UI_Click.wav');
   clickSound.volume = 0.8;
 
-  const appearSound = new Audio('assets/UI_LORCardOver.wav');
-  appearSound.volume = 0.6;
+  const appearSoundBase = new Audio('assets/UI_LORCardOver.wav');
+  appearSoundBase.volume = 0.6;
 
   let canClickPlay = true;
   const cache = new Map();
@@ -131,9 +130,10 @@
       setTimeout(() => {
         img.classList.add('fade-in');
 
-        // Play appear sound for each image
-        const sound = appearSound.cloneNode();
-        sound.play().catch(() => {});
+        // Create and play sound clone
+        const appearSound = appearSoundBase.cloneNode();
+        appearSound.volume = 0.6;
+        appearSound.play().catch(() => {});
       }, index * 100);
     });
 
@@ -142,6 +142,7 @@
     }, images.length * 100 + 500);
   });
 </script>
+
 
 
 </body>
