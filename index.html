@@ -142,25 +142,27 @@ async function changeBackground(bgUrl) {
   newBg.style.display = 'block';
   newBg.style.opacity = '0';
   newBg.style.zIndex = '0';
-  currentBg.style.zIndex = '-1';
-
-  // Force reflow
-  await new Promise(resolve => requestAnimationFrame(resolve));
   
+  // Wait for preload and frame update
+  await preloadImage(bgUrl);
+  await new Promise(resolve => requestAnimationFrame(resolve));
+
   // Start transition
   newBg.style.opacity = '1';
   currentBg.style.opacity = '0';
 
-  newBg.addEventListener('transitionend', function handler() {
+  // Handle transition completion
+  const completeTransition = () => {
     currentBg.style.backgroundImage = newBg.style.backgroundImage;
     currentBg.style.opacity = '1';
     newBg.style.display = 'none';
     newBg.style.opacity = '0';
-    newBg.style.zIndex = '0';
-    currentBg.style.zIndex = '-1';
     isTransitioning = false;
-    newBg.removeEventListener('transitionend', handler);
-  }, { once: true });
+  };
+
+  // Use both transitionend and timeout as fallback
+  newBg.addEventListener('transitionend', completeTransition, { once: true });
+  setTimeout(completeTransition, 1000);
 }
 
   galleryLinks.forEach(link => {
@@ -271,7 +273,11 @@ function returnToMainGallery() {
   dynamicContent.classList.remove('visible');
   gallery.style.display = 'grid';
   backButton.style.display = 'none';
-  changeBackground('assets/background.png');
+  
+  // Directly reset background without transition
+  const currentBg = document.getElementById('current-bg');
+  currentBg.style.backgroundImage = "url('assets/background.png')";
+  currentBg.style.opacity = '1';
 }
 
   backButton.addEventListener('click', () => {

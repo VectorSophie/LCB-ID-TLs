@@ -233,8 +233,13 @@ body {
   background-size: cover;
   background-position: center;
   transition: opacity 1s ease-in-out;
-  z-index: -1;
   background-color: #000;
+}
+
+#current-bg {
+  z-index: -1;
+  background-image: url('assets/background.png');
+  opacity: 1;
 }
 
 #new-bg {
@@ -243,10 +248,6 @@ body {
   z-index: 0;
 }
 
-#current-bg {
-  z-index: -1;
-  background-image: url('assets/background.png');
-}
 #youtube-profile {
   position: fixed;
   top: 20px;
