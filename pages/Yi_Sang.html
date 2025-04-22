@@ -4,7 +4,86 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Yi Sang - Translations</title>
-  <link rel="stylesheet" href="styles/Yi_Sang.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .background-fade {
+      animation: fadeIn 1s ease-in-out forwards;
+      padding: 20px;
+      background-image: url('../assets/Yi_Sang/LCB_YiSang.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; background-color: black; }
+      to { opacity: 1; background-color: #111; }
+    }
+
+    #yi-gallery {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    #yi-gallery img {
+      width: 120px;
+      height: auto;
+      cursor: pointer;
+      border: 2px solid white;
+      transition: transform 0.3s ease;
+    }
+
+    #yi-gallery img:hover {
+      transform: scale(1.1);
+    }
+
+    .expanded-view {
+      display: flex;
+      margin-top: 30px;
+      gap: 20px;
+      padding: 20px;
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+
+    .expanded-image {
+      height: 100vh;
+      object-fit: contain;
+      flex: 1;
+    }
+
+    .voiceline-table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 700px;
+      flex: 1;
+    }
+
+    .voiceline-table th,
+    .voiceline-table td {
+      border: 1px solid #999;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .voiceline-table th {
+      background-color: #222;
+    }
+
+    .voiceline-table td {
+      background-color: #333;
+    }
+  </style>
 </head>
 <body>
 
@@ -22,55 +101,54 @@
     <div id="expanded-view-container"></div>
   </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const gallery = document.getElementById('yi-gallery');
-    const expandedViewContainer = document.getElementById('expanded-view-container');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const gallery = document.getElementById('yi-gallery');
+      const expandedViewContainer = document.getElementById('expanded-view-container');
 
-    const fullImagePaths = [
-      "../assets/Yi_Sang/BloomSang.png",
-      "../assets/Yi_Sang/WSang.png",
-      "../assets/Yi_Sang/RingSang.png",
-      "../assets/Yi_Sang/ButterflySang.png",
-      "../assets/Yi_Sang/LiuSang.png"
-    ];
+      const fullImagePaths = [
+        "../assets/Yi_Sang/BloomSang.png",
+        "../assets/Yi_Sang/WSang.png",
+        "../assets/Yi_Sang/RingSang.png",
+        "../assets/Yi_Sang/ButterflySang.png",
+        "../assets/Yi_Sang/LiuSang.png"
+      ];
 
-    const voicelines = [
-      ["그건... 정말이지.", "That is... truly.", "Ambiguous tone, possibly reflecting disbelief."],
-      ["끝은 정해져 있다.", "The end is predetermined.", "Reference to fatalism."],
-      ["이건 내 의지가 아니다.", "This is not my will.", "Possibly rejecting responsibility."],
-      ["내게 말 걸지 마라.", "Don’t speak to me.", "Blunt dismissal, common in his character."],
-      ["나는 이미 알고 있다.", "I already know.", "Possibly referencing foreknowledge."]
-    ];
+      const voicelines = [
+        ["그건... 정말이지.", "That is... truly.", "Ambiguous tone, possibly reflecting disbelief."],
+        ["끝은 정해져 있다.", "The end is predetermined.", "Reference to fatalism."],
+        ["이건 내 의지가 아니다.", "This is not my will.", "Possibly rejecting responsibility."],
+        ["내게 말 걸지 마라.", "Don’t speak to me.", "Blunt dismissal, common in his character."],
+        ["나는 이미 알고 있다.", "I already know.", "Possibly referencing foreknowledge."]
+      ];
 
-    gallery.querySelectorAll('img').forEach((img, idx) => {
-      img.addEventListener('click', () => {
-        const fullImagePath = fullImagePaths[idx];
+      gallery.querySelectorAll('img').forEach((img, idx) => {
+        img.addEventListener('click', () => {
+          const fullImagePath = fullImagePaths[idx];
 
-        expandedViewContainer.innerHTML = `
-          <div class="expanded-view">
-            <img class="expanded-image" src="${fullImagePath}" alt="Expanded Yi Sang">
-            <table class="voiceline-table">
-              <thead>
-                <tr><th>Voiceline</th><th>Translation</th><th>Notes</th></tr>
-              </thead>
-              <tbody>
-                ${voicelines.map(row => `
-                  <tr>
-                    <td>${row[0]}</td>
-                    <td>${row[1]}</td>
-                    <td>${row[2]}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          </div>
-        `;
+          expandedViewContainer.innerHTML = `
+            <div class="expanded-view">
+              <img class="expanded-image" src="${fullImagePath}" alt="Expanded Yi Sang">
+              <table class="voiceline-table">
+                <thead>
+                  <tr><th>Voiceline</th><th>Translation</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                  ${voicelines.map(row => `
+                    <tr>
+                      <td>${row[0]}</td>
+                      <td>${row[1]}</td>
+                      <td>${row[2]}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+        });
       });
     });
-  });
-</script>
-
+  </script>
 
 </body>
 </html>
