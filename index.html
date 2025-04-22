@@ -91,27 +91,34 @@
     backButton.style.display = 'none';
 
     // Animate gallery images
-images.forEach((img, index) => {
-  img.classList.remove('fade-in', 'hover-enabled'); // reset state
-  img.classList.add('pending-animation'); // block hover during animation
+    const images = gallery.querySelectorAll('img');
+    gallery.classList.add('animate');
 
-  setTimeout(() => {
-    img.classList.add('fade-in');
+    images.forEach((img, index) => {
+      img.classList.remove('fade-in', 'hover-enabled');
+      img.classList.add('pending-animation'); // prevent hover
 
-    // Wait for fade-in animation to complete before allowing hover
-    img.addEventListener('animationend', function handler() {
-      img.classList.remove('pending-animation');
-      img.classList.add('hover-enabled');
-      img.removeEventListener('animationend', handler);
+      setTimeout(() => {
+        img.classList.add('fade-in');
+        img.addEventListener('animationend', function handler() {
+          img.classList.remove('pending-animation');
+          img.classList.add('hover-enabled');
+          img.removeEventListener('animationend', handler);
+        });
+      }, index * 100);
     });
-  }, index * 100);
-});
+
+    setTimeout(() => {
+      gallery.classList.remove('animate');
+    }, images.length * 100 + 500);
+  });
 
   // Add hover/click sounds to gallery images
   galleryLinks.forEach(link => {
     const img = link.querySelector('img');
 
     img.addEventListener('mouseenter', () => {
+      if (!img.classList.contains('hover-enabled')) return;
       const hoverSound = hoverSoundTemplate.cloneNode();
       hoverSound.play().catch(() => {});
     });
@@ -155,6 +162,7 @@ images.forEach((img, index) => {
     backButton.style.display = 'block';
   }
 </script>
+
 
 
 
