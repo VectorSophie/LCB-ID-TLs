@@ -238,3 +238,43 @@ body:active {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.body-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1s ease-in-out;
+  z-index: -1;
+}
+
+#new-bg {
+  display: none;
+  opacity: 0;
+}
+
+.voiceline-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+.detail-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.spreadsheet table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.spreadsheet th, .spreadsheet td {
+  padding: 10px;
+  border: 1px solid #fff;
+  text-align: left;
+}
