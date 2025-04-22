@@ -111,9 +111,7 @@
     dynamicContent.innerHTML = html;
     dynamicContent.classList.add('visible');
     backButton.style.display = 'block';
-    setTimeout(() => {
-      dynamicContent.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    // Removed scrollIntoView here
   }
 
   backButton.addEventListener('click', () => {
