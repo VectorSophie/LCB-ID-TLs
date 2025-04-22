@@ -50,6 +50,7 @@
 <!-- Sounds -->
 <audio src="assets/sounds/hover.mp3" preload="auto" style="display:none;"></audio>
 <audio src="assets/sounds/click.mp3" preload="auto" style="display:none;"></audio>
+<audio id="appear-sound" src="assets/UI_LORCardOver.wav" preload="auto" style="display:none;"></audio>
 
 <script>
   const hoverSoundTemplate = new Audio('assets/UI_Hover.wav');
@@ -57,6 +58,9 @@
 
   const clickSound = new Audio('assets/UI_Click.wav');
   clickSound.volume = 0.8;
+
+  const appearSound = new Audio('assets/sounds/appear.mp3');
+  appearSound.volume = 0.6;
 
   let canClickPlay = true;
   const cache = new Map();
@@ -111,33 +115,34 @@
     dynamicContent.innerHTML = html;
     dynamicContent.classList.add('visible');
     backButton.style.display = 'block';
-    // Removed scrollIntoView here
   }
 
   backButton.addEventListener('click', () => {
-  dynamicContent.innerHTML = '';
-  dynamicContent.classList.remove('visible');
-  backButton.style.display = 'none';
+    dynamicContent.innerHTML = '';
+    dynamicContent.classList.remove('visible');
+    backButton.style.display = 'none';
 
-  // Animate gallery images back in
-  const images = gallery.querySelectorAll('img');
-  gallery.style.display = 'grid';
-  gallery.classList.add('animate');
+    const images = gallery.querySelectorAll('img');
+    gallery.style.display = 'grid';
+    gallery.classList.add('animate');
 
-  images.forEach((img, index) => {
-    img.classList.remove('fade-in'); // Reset in case re-used
+    images.forEach((img, index) => {
+      img.classList.remove('fade-in');
+      setTimeout(() => {
+        img.classList.add('fade-in');
+
+        // Play appear sound for each image
+        const sound = appearSound.cloneNode();
+        sound.play().catch(() => {});
+      }, index * 100);
+    });
+
     setTimeout(() => {
-      img.classList.add('fade-in');
-    }, index * 100); // Stagger each by 100ms
+      gallery.classList.remove('animate');
+    }, images.length * 100 + 500);
   });
-
-  // Optional: remove animation class after animation ends
-  setTimeout(() => {
-    gallery.classList.remove('animate');
-  }, images.length * 100 + 500); // Clean-up
-});
-
 </script>
+
 
 </body>
 </html>
