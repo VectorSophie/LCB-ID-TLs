@@ -80,6 +80,7 @@
   clickSound.volume = 0.8;
 
   let canClickPlay = true;
+  let lastLoadedUrl = null;
 
   const galleryLinks = document.querySelectorAll('.image-gallery a');
 
@@ -92,7 +93,7 @@
     });
 
     img.addEventListener('click', (e) => {
-      e.preventDefault(); // prevent default navigation
+      e.preventDefault(); // prevent default link
 
       if (canClickPlay) {
         clickSound.currentTime = 0;
@@ -102,25 +103,41 @@
       }
 
       const targetUrl = link.getAttribute('href');
-      loadPageContent(targetUrl);
+      const dynamicContent = document.getElementById('dynamic-content');
+
+      if (targetUrl === lastLoadedUrl) {
+        // If same content is already shown, toggle it off
+        dynamicContent.innerHTML = '';
+        lastLoadedUrl = null;
+        scrollToGallery();
+      } else {
+        // Load new content
+        fetch(targetUrl)
+          .then(response => response.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const content = doc.body.innerHTML;
+            dynamicContent.innerHTML = content;
+            lastLoadedUrl = targetUrl;
+            scrollToContent();
+          })
+          .catch(err => {
+            dynamicContent.innerHTML = "<p>Error loading content.</p>";
+            console.error(err);
+          });
+      }
     });
   });
 
-  function loadPageContent(url) {
-    fetch(url)
-      .then(response => response.text())
-      .then(html => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const content = doc.body.innerHTML;
+  function scrollToContent() {
+    const dynamicContent = document.getElementById('dynamic-content');
+    dynamicContent.scrollIntoView({ behavior: 'smooth' });
+  }
 
-        document.getElementById('dynamic-content').innerHTML = content;
-        window.scrollTo(0, 0);
-      })
-      .catch(err => {
-        document.getElementById('dynamic-content').innerHTML = "<p>Error loading content.</p>";
-        console.error(err);
-      });
+  function scrollToGallery() {
+    const gallery = document.querySelector('.image-gallery');
+    gallery.scrollIntoView({ behavior: 'smooth' });
   }
 </script>
 

@@ -71,6 +71,14 @@ body:active {
   cursor: url('assets/mouse_on.cur'), pointer;
 }
 
+#dynamic-content {
+  margin-top: 40px;
+  padding: 20px;
+  background: rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+
 
 .overlay {
   background-color: rgba(0, 0, 0, 0.0);
