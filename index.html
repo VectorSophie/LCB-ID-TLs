@@ -81,8 +81,11 @@
 
   let canClickPlay = true;
   let lastLoadedUrl = null;
+  const cache = new Map();
 
   const galleryLinks = document.querySelectorAll('.image-gallery a');
+  const dynamicContent = document.getElementById('dynamic-content');
+  const backToTopButton = document.getElementById('back-to-top');
 
   galleryLinks.forEach(link => {
     const img = link.querySelector('img');
@@ -93,7 +96,7 @@
     });
 
     img.addEventListener('click', (e) => {
-      e.preventDefault(); // prevent default link
+      e.preventDefault();
 
       if (canClickPlay) {
         clickSound.currentTime = 0;
@@ -103,22 +106,31 @@
       }
 
       const targetUrl = link.getAttribute('href');
-      const dynamicContent = document.getElementById('dynamic-content');
 
       if (targetUrl === lastLoadedUrl) {
-        // If same content is already shown, toggle it off
         dynamicContent.innerHTML = '';
+        dynamicContent.classList.remove('visible');
         lastLoadedUrl = null;
         scrollToGallery();
+        return;
+      }
+
+      if (cache.has(targetUrl)) {
+        dynamicContent.innerHTML = cache.get(targetUrl);
+        triggerTransition();
+        lastLoadedUrl = targetUrl;
+        scrollToContent();
       } else {
-        // Load new content
         fetch(targetUrl)
           .then(response => response.text())
           .then(html => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
             const content = doc.body.innerHTML;
+
+            cache.set(targetUrl, content); // cache it
             dynamicContent.innerHTML = content;
+            triggerTransition();
             lastLoadedUrl = targetUrl;
             scrollToContent();
           })
@@ -131,15 +143,30 @@
   });
 
   function scrollToContent() {
-    const dynamicContent = document.getElementById('dynamic-content');
-    dynamicContent.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      dynamicContent.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   }
 
   function scrollToGallery() {
     const gallery = document.querySelector('.image-gallery');
     gallery.scrollIntoView({ behavior: 'smooth' });
   }
+
+  function triggerTransition() {
+    dynamicContent.classList.remove('visible');
+    void dynamicContent.offsetWidth; // force reflow
+    dynamicContent.classList.add('visible');
+  }
+
+  // Back to top button
+  backToTopButton.addEventListener('click', () => {
+    scrollToGallery();
+  });
 </script>
+
+
+<button id="back-to-top">↑ Back to Top</button>
 
 </body>
 </html>
