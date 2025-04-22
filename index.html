@@ -91,6 +91,7 @@
   const galleryLinks = document.querySelectorAll('.image-gallery a');
   const dynamicContent = document.getElementById('dynamic-content');
   const backToTopButton = document.getElementById('back-to-top');
+  const bottomNav = document.getElementById('bottom-nav');
 
   galleryLinks.forEach(link => {
     const img = link.querySelector('img');
@@ -115,6 +116,7 @@
       if (targetUrl === lastLoadedUrl) {
         dynamicContent.innerHTML = '';
         dynamicContent.classList.remove('visible');
+        bottomNav.style.display = 'none'; // hide Back to Top
         lastLoadedUrl = null;
         scrollToGallery();
         return;
@@ -125,6 +127,7 @@
         triggerTransition();
         lastLoadedUrl = targetUrl;
         scrollToContent();
+        bottomNav.style.display = 'flex'; // show Back to Top
       } else {
         fetch(targetUrl)
           .then(response => response.text())
@@ -138,10 +141,12 @@
             triggerTransition();
             lastLoadedUrl = targetUrl;
             scrollToContent();
+            bottomNav.style.display = 'flex'; // show Back to Top
           })
           .catch(err => {
             dynamicContent.innerHTML = "<p>Error loading content.</p>";
             console.error(err);
+            bottomNav.style.display = 'none';
           });
       }
     });
@@ -153,12 +158,12 @@
     }, 100);
   }
 
-function scrollToGallery() {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-}
+  function scrollToGallery() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
 
   function triggerTransition() {
     dynamicContent.classList.remove('visible');
@@ -170,6 +175,7 @@ function scrollToGallery() {
     scrollToGallery();
   });
 </script>
+
 
 </body>
 </html>

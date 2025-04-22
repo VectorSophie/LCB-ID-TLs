@@ -87,8 +87,8 @@ body:active {
 }
 
 #bottom-nav {
-  display: flex;
-  justify-content: flex-start; /* <- This moves it to the left */
+  display: none; /* Hide by default */
+  justify-content: flex-start;
   padding: 20px;
   margin-top: 20px;
 }
