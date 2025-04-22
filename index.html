@@ -65,11 +65,10 @@
   const cache = new Map();
 
   const gallery = document.querySelector('.image-gallery');
-  const galleryLinks = document.querySelectorAll('.image-gallery a');
   const dynamicContent = document.getElementById('dynamic-content');
   const backButton = document.getElementById('back-button');
 
-  // Back button hover + click sound
+  // Hover and click sounds for back button
   backButton.addEventListener('mouseenter', () => {
     const hoverSound = hoverSoundTemplate.cloneNode();
     hoverSound.play().catch(() => {});
@@ -94,53 +93,67 @@
       }, index * 100);
     });
 
+    // Re-attach hover events after animation is done
     setTimeout(() => {
       gallery.classList.remove('animate');
+      setupGalleryImageEvents(); // << REATTACH hover handlers
     }, images.length * 100 + 500);
   });
 
-  // Add hover & click sounds for each gallery image
   function setupGalleryImageEvents() {
+    const galleryLinks = document.querySelectorAll('.image-gallery a');
+
     galleryLinks.forEach(link => {
       const img = link.querySelector('img');
 
-      img.removeEventListener('mouseenter', img._hoverHandler);
+      if (!img) return;
+
+      // Clear previous hover handler if it exists
+      if (img._hoverHandler) {
+        img.removeEventListener('mouseenter', img._hoverHandler);
+      }
+
       img._hoverHandler = () => {
         const hoverSound = hoverSoundTemplate.cloneNode();
         hoverSound.play().catch(() => {});
       };
       img.addEventListener('mouseenter', img._hoverHandler);
 
-      img.addEventListener('click', (e) => {
-        e.preventDefault();
+      // Prevent duplicate click events
+      if (!img._clickAttached) {
+        img.addEventListener('click', (e) => {
+          e.preventDefault();
 
-        if (canClickPlay) {
-          clickSound.currentTime = 0;
-          clickSound.play().catch(() => {});
-          canClickPlay = false;
-          setTimeout(() => { canClickPlay = true; }, 300);
-        }
+          if (canClickPlay) {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(() => {});
+            canClickPlay = false;
+            setTimeout(() => { canClickPlay = true; }, 300);
+          }
 
-        const targetUrl = link.getAttribute('href');
+          const targetUrl = link.getAttribute('href');
 
-        if (cache.has(targetUrl)) {
-          showContent(cache.get(targetUrl));
-        } else {
-          fetch(targetUrl)
-            .then(response => response.text())
-            .then(html => {
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(html, 'text/html');
-              const content = doc.body.innerHTML;
-              cache.set(targetUrl, content);
-              showContent(content);
-            })
-            .catch(err => {
-              dynamicContent.innerHTML = "<p>Error loading content.</p>";
-              console.error(err);
-            });
-        }
-      });
+          if (cache.has(targetUrl)) {
+            showContent(cache.get(targetUrl));
+          } else {
+            fetch(targetUrl)
+              .then(response => response.text())
+              .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const content = doc.body.innerHTML;
+                cache.set(targetUrl, content);
+                showContent(content);
+              })
+              .catch(err => {
+                dynamicContent.innerHTML = "<p>Error loading content.</p>";
+                console.error(err);
+              });
+          }
+        });
+
+        img._clickAttached = true; // Prevent multiple attachments
+      }
     });
   }
 
@@ -154,6 +167,7 @@
   // Initial setup
   setupGalleryImageEvents();
 </script>
+
 
 </body>
 </html>
