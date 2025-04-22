@@ -153,10 +153,12 @@
     }, 100);
   }
 
-  function scrollToGallery() {
-    const gallery = document.querySelector('.image-gallery');
-    gallery.scrollIntoView({ behavior: 'smooth' });
-  }
+function scrollToGallery() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
 
   function triggerTransition() {
     dynamicContent.classList.remove('visible');
