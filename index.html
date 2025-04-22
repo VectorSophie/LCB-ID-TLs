@@ -63,8 +63,13 @@
       </a>
     </div>
 
-    <!-- This is where the dynamic content will be loaded -->
+    <!-- Dynamic content -->
     <div id="dynamic-content" class="dynamic-content"></div>
+
+    <!-- Back to Top button under dynamic content -->
+    <div id="bottom-nav">
+      <button id="back-to-top">↑ Back to Top</button>
+    </div>
   </div>
 </div>
 
@@ -128,7 +133,7 @@
             const doc = parser.parseFromString(html, 'text/html');
             const content = doc.body.innerHTML;
 
-            cache.set(targetUrl, content); // cache it
+            cache.set(targetUrl, content);
             dynamicContent.innerHTML = content;
             triggerTransition();
             lastLoadedUrl = targetUrl;
@@ -159,14 +164,10 @@
     dynamicContent.classList.add('visible');
   }
 
-  // Back to top button
   backToTopButton.addEventListener('click', () => {
     scrollToGallery();
   });
 </script>
-
-
-<button id="back-to-top">↑ Back to Top</button>
 
 </body>
 </html>
