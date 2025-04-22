@@ -1,155 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Yi Sang</title>
+  <meta charset="UTF-8">
+  <title>Yi Sang - Voicelines</title>
   <link rel="stylesheet" href="../style.css">
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: #000;
-      transition: background 1s ease-in-out;
+      font-family: sans-serif;
+      background: url('../assets/Yi_Sang/LCB_YiSang.png') no-repeat center center fixed;
+      background-size: cover;
+      animation: fadeInBackground 1.5s ease-in-out;
     }
 
-    .fade-bg {
-      background: #1c1c1c;
+    @keyframes fadeInBackground {
+      from {
+        opacity: 0;
+        background-color: black;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
-    .yi-sang-gallery {
+    h2 {
+      text-align: center;
+      color: white;
+      margin-top: 1rem;
+    }
+
+    .yi-gallery {
       display: flex;
-      flex-wrap: wrap;
+      gap: 10px;
+      padding: 1rem;
       justify-content: center;
-      gap: 15px;
-      padding: 2rem;
     }
 
-    .yi-sang-gallery img {
-      width: 150px;
-      height: auto;
+    .yi-gallery img {
+      width: 120px;
       cursor: pointer;
-      border-radius: 12px;
+      border: 2px solid white;
+      border-radius: 8px;
       transition: transform 0.3s ease;
     }
 
-    .yi-sang-gallery img:hover {
-      transform: scale(1.05);
+    .yi-gallery img:hover {
+      transform: scale(1.1);
     }
 
-    .yi-sang-viewer {
-      display: none;
-      flex-direction: row;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .image-panel {
-      flex: 1;
-      background-color: #111;
+    .yi-container {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 1rem;
-    }
-
-    .image-panel img {
-      max-height: 90%;
-      max-width: 90%;
-      border-radius: 16px;
-    }
-
-    .table-panel {
-      flex: 1;
-      background-color: #222;
-      color: white;
+      gap: 1rem;
       padding: 2rem;
-      overflow-y: auto;
+      display: none;
+      flex-wrap: wrap;
+    }
+
+    .yi-image-variant {
+      flex: 1;
+      min-width: 300px;
+      min-height: 80vh;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .yi-table {
+      flex: 2;
+      min-width: 400px;
+      overflow-x: auto;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
+      background-color: rgba(0,0,0,0.7);
+      color: white;
+      border-radius: 8px;
+      overflow: hidden;
     }
 
     th, td {
-      border: 1px solid #555;
-      padding: 0.5rem;
+      border: 1px solid #666;
+      padding: 10px;
       text-align: left;
     }
 
     th {
       background-color: #333;
     }
+
+    audio {
+      width: 100%;
+    }
   </style>
 </head>
-<body onload="initYiSangPage()">
-  <div class="yi-sang-gallery" id="yiGallery">
-    <img src="../assets/Yi_Sang/BloomSang.png" onclick="openViewer(0)" />
-    <img src="../assets/Yi_Sang/WSang.png" onclick="openViewer(1)" />
-    <img src="../assets/Yi_Sang/RingSang.png" onclick="openViewer(2)" />
-    <img src="../assets/Yi_Sang/ButterflySang.png" onclick="openViewer(3)" />
-    <img src="../assets/Yi_Sang/LiuSang.png" onclick="openViewer(4)" />
-  </div>
+<body>
 
-  <div class="yi-sang-viewer" id="yiViewer">
-    <div class="image-panel">
-      <img id="expandedImage" src="" alt="Expanded Yi Sang" />
-    </div>
-    <div class="table-panel">
-      <h2>Voice Line Translations</h2>
-      <table>
+<h2>Yi Sang - Identity Gallery</h2>
+<div class="yi-gallery">
+  <img src="../assets/Yi_Sang/BloomSang.png" data-index="0">
+  <img src="../assets/Yi_Sang/WSang.png" data-index="1">
+  <img src="../assets/Yi_Sang/RingSang.png" data-index="2">
+  <img src="../assets/Yi_Sang/ButterflySang.png" data-index="3">
+  <img src="../assets/Yi_Sang/LiuSang.png" data-index="4">
+</div>
+
+<div class="yi-container" id="yi-container">
+  <div class="yi-image-variant" id="variant-img"></div>
+  <div class="yi-table" id="voice-table"></div>
+</div>
+
+<script>
+  const variantImages = [
+    '../assets/Yi_Sang/BloomSang_Full.png',
+    '../assets/Yi_Sang/WSang_Full.png',
+    '../assets/Yi_Sang/RingSang_Full.png',
+    '../assets/Yi_Sang/ButterflySang_Full.png',
+    '../assets/Yi_Sang/LiuSang_Full.png',
+  ];
+
+  const voicelineData = [
+    {
+      lines: [
+        ["KR Line A1", "EN Translation A1", "audio1.mp3", "Note A1"],
+        ["KR Line A2", "EN Translation A2", "audio2.mp3", "Note A2"],
+      ]
+    },
+    {
+      lines: [
+        ["KR Line B1", "EN Translation B1", "audio3.mp3", "Note B1"],
+        ["KR Line B2", "EN Translation B2", "audio4.mp3", "Note B2"],
+      ]
+    },
+    {
+      lines: [
+        ["KR Line C1", "EN Translation C1", "audio5.mp3", "Note C1"],
+        ["KR Line C2", "EN Translation C2", "audio6.mp3", "Note C2"],
+      ]
+    },
+    {
+      lines: [
+        ["KR Line D1", "EN Translation D1", "audio7.mp3", "Note D1"],
+        ["KR Line D2", "EN Translation D2", "audio8.mp3", "Note D2"],
+      ]
+    },
+    {
+      lines: [
+        ["KR Line E1", "EN Translation E1", "audio9.mp3", "Note E1"],
+        ["KR Line E2", "EN Translation E2", "audio10.mp3", "Note E2"],
+      ]
+    },
+  ];
+
+  const galleryImgs = document.querySelectorAll('.yi-gallery img');
+  const container = document.getElementById('yi-container');
+  const variantImg = document.getElementById('variant-img');
+  const voiceTable = document.getElementById('voice-table');
+
+  galleryImgs.forEach(img => {
+    img.addEventListener('click', () => {
+      const index = img.dataset.index;
+
+      // Set background image on the left
+      variantImg.style.backgroundImage = `url('${variantImages[index]}')`;
+
+      // Create table content
+      let html = `<table>
         <thead>
           <tr>
             <th>Voiceline</th>
             <th>Translation</th>
+            <th>Audio</th>
             <th>Notes</th>
           </tr>
         </thead>
-        <tbody id="voiceTable">
-          <!-- Filled dynamically -->
-        </tbody>
-      </table>
-    </div>
-  </div>
+        <tbody>`;
 
-  <script>
-    const images = [
-      '../assets/Yi_Sang/BloomSang.png',
-      '../assets/Yi_Sang/WSang.png',
-      '../assets/Yi_Sang/RingSang.png',
-      '../assets/Yi_Sang/ButterflySang.png',
-      '../assets/Yi_Sang/LiuSang.png'
-    ];
-
-    const voiceLines = [
-      { line: "Original 1", translation: "Translation 1", note: "Note 1" },
-      { line: "Original 2", translation: "Translation 2", note: "Note 2" },
-      { line: "Original 3", translation: "Translation 3", note: "Note 3" },
-      { line: "Original 4", translation: "Translation 4", note: "Note 4" },
-      { line: "Original 5", translation: "Translation 5", note: "Note 5" },
-    ];
-
-    function initYiSangPage() {
-      document.body.classList.add('fade-bg');
-    }
-
-    function openViewer(index) {
-      document.getElementById('yiGallery').style.display = 'none';
-      const viewer = document.getElementById('yiViewer');
-      viewer.style.display = 'flex';
-
-      document.getElementById('expandedImage').src = images[index];
-
-      const table = document.getElementById('voiceTable');
-      table.innerHTML = ""; // Clear previous
-
-      voiceLines.forEach(({ line, translation, note }) => {
-        const row = `<tr><td>${line}</td><td>${translation}</td><td>${note}</td></tr>`;
-        table.innerHTML += row;
+      voicelineData[index].lines.forEach(([orig, trans, audio, note]) => {
+        html += `
+          <tr>
+            <td>${orig}</td>
+            <td>${trans}</td>
+            <td><audio controls src="../assets/sounds/${audio}"></audio></td>
+            <td>${note}</td>
+          </tr>`;
       });
-    }
-  </script>
+
+      html += `</tbody></table>`;
+      voiceTable.innerHTML = html;
+      container.style.display = 'flex';
+    });
+  });
+</script>
+
 </body>
 </html>
