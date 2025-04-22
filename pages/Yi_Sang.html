@@ -94,11 +94,17 @@
     audio {
       width: 100%;
     }
+	
+	.page-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
   </style>
 </head>
 <body>
 
 <h2>Yi Sang - Identity Gallery</h2>
+<div class="page-container">
 <div class="yi-gallery">
   <img src="https://notherwael.github.io/LCB-ID-TLs/assets/Yi_Sang/BloomSang.png" data-index="0">
   <img src="https://notherwael.github.io/LCB-ID-TLs/assets/Yi_Sang/WSang.png" data-index="1">
@@ -161,7 +167,7 @@
 
   galleryImgs.forEach(img => {
     img.addEventListener('click', () => {
-      const index = img.dataset.index;
+      const index = parseInt(img.dataset.index);
 
       // Set background image on the left
       variantImg.style.backgroundImage = `url('${variantImages[index]}')`;
@@ -194,5 +200,6 @@
     });
   });
 </script>
+</div> 
 </body>
 </html>
