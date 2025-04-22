@@ -113,15 +113,6 @@
 
       const targetUrl = link.getAttribute('href');
 
-      if (targetUrl === lastLoadedUrl) {
-        dynamicContent.innerHTML = '';
-        dynamicContent.classList.remove('visible');
-        bottomNav.style.display = 'none'; // hide Back to Top
-        lastLoadedUrl = null;
-        scrollToGallery();
-        return;
-      }
-
       if (cache.has(targetUrl)) {
         dynamicContent.innerHTML = cache.get(targetUrl);
         triggerTransition();
