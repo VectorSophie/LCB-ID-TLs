@@ -6,6 +6,7 @@
   <title>LCB ID Translations</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preload" href="assets/mouse_on.cur" as="image">
+  <link rel="preload" href="https://notherwael.github.io/LCB-ID-TLs/assets/Yi_Sang/10104_gacksung.png" as="image">
   <link rel="preload" href="assets/UI_Hover.wav" as="audio">
   <link rel="preload" href="assets/UI_Click.wav" as="audio">
 </head>
@@ -115,9 +116,20 @@
     });
   });
 
-let bgTransition = null;
 let currentBg = document.getElementById('current-bg');
 let newBg = document.getElementById('new-bg');
+
+// Preload all background images from character links
+function preloadCharacterBackgrounds() {
+  const bgLinks = document.querySelectorAll('.character-voice[data-background]');
+  bgLinks.forEach(link => {
+    const img = new Image();
+    img.src = link.dataset.background;
+  });
+}
+
+// Call it when the page loads
+document.addEventListener('DOMContentLoaded', preloadCharacterBackgrounds);
 
 // Preload images
 function preloadImage(url) {
@@ -240,6 +252,9 @@ function returnToMainGallery() {
   dynamicContent.classList.remove('visible');
   gallery.style.display = 'grid';
   backButton.style.display = 'none';
+  
+  const defaultBg = new Image();
+  defaultBg.src = 'assets/background.png';
   
   // Reset background immediately
   const currentBg = document.getElementById('current-bg');
