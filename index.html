@@ -14,6 +14,11 @@
 <div class="body-bg" id="current-bg"></div>
 <div class="body-bg" id="new-bg"></div>
 
+<div class="bg-container">
+  <div class="body-bg" id="current-bg"></div>
+  <div class="body-bg" id="new-bg"></div>
+</div>
+
 <a href="https://www.youtube.com/@NotherWael" target="_blank">
   <img src="assets/channels4_profile.jpg" alt="YouTube Profile" id="youtube-profile">
 </a>
@@ -113,30 +118,34 @@
     });
   });
 
-let isTransitioning = false;
+let bgTransition = null;
+let currentBg = document.getElementById('current-bg');
+let newBg = document.getElementById('new-bg');
 
-let currentTransition = null;
+// Preload images
+function preloadImage(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = url;
+    img.onload = resolve;
+  });
+}
 
-function changeBackground(bgUrl) {
-  const currentBg = document.getElementById('current-bg');
-  const newBg = document.getElementById('new-bg');
-
-  // Cancel any ongoing transition
-  if (currentTransition) {
-    clearTimeout(currentTransition);
-    newBg.style.display = 'none';
-    newBg.style.opacity = '0';
-    currentBg.style.opacity = '1';
-  }
-
-  // Don't transition if same background
-  if (currentBg.style.backgroundImage === `url("${bgUrl}")`) return;
-
+async function changeBackground(bgUrl) {
+  if (bgTransition) return;
+  
+  // Preload the image first
+  await preloadImage(bgUrl);
+  
+  bgTransition = true;
+  
   // Set up new background
   newBg.style.backgroundImage = `url(${bgUrl})`;
   newBg.style.display = 'block';
   newBg.style.opacity = '0';
-  
+  newBg.style.zIndex = '0';
+  currentBg.style.zIndex = '-1';
+
   // Force reflow
   void newBg.offsetHeight;
 
@@ -144,14 +153,16 @@ function changeBackground(bgUrl) {
   newBg.style.opacity = '1';
   currentBg.style.opacity = '0';
 
-  // Complete transition after 1s
-  currentTransition = setTimeout(() => {
+  newBg.addEventListener('transitionend', function handler() {
     currentBg.style.backgroundImage = newBg.style.backgroundImage;
+    currentBg.style.opacity = '1';
+    currentBg.style.zIndex = '-1';
     newBg.style.display = 'none';
     newBg.style.opacity = '0';
-    currentBg.style.opacity = '1';
-    currentTransition = null;
-  }, 1000);
+    newBg.style.zIndex = '0';
+    bgTransition = null;
+    newBg.removeEventListener('transitionend', handler);
+  }, { once: true });
 }
 
   galleryLinks.forEach(link => {
@@ -262,7 +273,7 @@ function returnToMainGallery() {
   dynamicContent.classList.remove('visible');
   gallery.style.display = 'grid';
   backButton.style.display = 'none';
-  changeBackground('assets/background.png'); // Reset to main background
+  changeBackground('assets/background.png');
 }
 
   backButton.addEventListener('click', () => {

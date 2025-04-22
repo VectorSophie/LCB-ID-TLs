@@ -211,6 +211,10 @@ button,
 }
 
 /* Background Transition Fix */
+body {
+  background-color: #000; /* Fallback color */
+}
+
 .body-bg {
   position: fixed;
   top: 0;
@@ -221,6 +225,7 @@ button,
   background-position: center;
   transition: opacity 1s ease-in-out;
   z-index: -1;
+  background-color: #000; /* Prevent transparency issues */
 }
 
 #current-bg {
@@ -230,7 +235,16 @@ button,
 #new-bg {
   display: none;
   opacity: 0;
-  z-index: 0; /* Higher than current-bg during transition */
+  z-index: 0;
+}
+
+.bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
 }
 
 #youtube-profile {
