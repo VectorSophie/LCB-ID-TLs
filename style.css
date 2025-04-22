@@ -237,6 +237,46 @@ button,
   opacity: 0;
 }
 
+#youtube-profile {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  z-index: 9999;
+}
+
+#youtube-profile:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+.github-link {
+  position: fixed;
+  bottom: 20px;
+  right: 100px;
+  color: white;
+  font-size: 14px;
+  font-family: 'Pretendard', sans-serif;
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.github-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+  cursor: url('assets/mouse_on.png'), pointer;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .image-gallery,
