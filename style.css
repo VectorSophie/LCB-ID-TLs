@@ -224,7 +224,9 @@ body {
   z-index: -2;
 }
 
+/* Add this rule to prevent nested transitions */
 .body-bg {
+  pointer-events: none; /* Add this line */
   position: fixed;
   top: 0;
   left: 0;
@@ -233,6 +235,7 @@ body {
   background-size: cover;
   background-position: center;
   transition: opacity 1s ease-in-out;
+  z-index: -1;
   background-color: #000;
 }
 

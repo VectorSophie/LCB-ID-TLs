@@ -129,21 +129,26 @@ function preloadImage(url) {
 }
 
 let isTransitioning = false;
+let transitionController = null;
 
 async function changeBackground(bgUrl) {
   if (isTransitioning) return;
   isTransitioning = true;
+  
+  if (transitionController) {
+    transitionController.abort();
+    transitionController = null;
+  }
 
   const currentBg = document.getElementById('current-bg');
   const newBg = document.getElementById('new-bg');
+  transitionController = new AbortController();
 
   // Reset states
   newBg.style.backgroundImage = `url(${bgUrl})`;
   newBg.style.display = 'block';
   newBg.style.opacity = '0';
-  newBg.style.zIndex = '0';
   
-  // Wait for preload and frame update
   await preloadImage(bgUrl);
   await new Promise(resolve => requestAnimationFrame(resolve));
 
@@ -152,17 +157,17 @@ async function changeBackground(bgUrl) {
   currentBg.style.opacity = '0';
 
   // Handle transition completion
-  const completeTransition = () => {
+  newBg.addEventListener('transitionend', () => {
     currentBg.style.backgroundImage = newBg.style.backgroundImage;
     currentBg.style.opacity = '1';
     newBg.style.display = 'none';
     newBg.style.opacity = '0';
     isTransitioning = false;
-  };
-
-  // Use both transitionend and timeout as fallback
-  newBg.addEventListener('transitionend', completeTransition, { once: true });
-  setTimeout(completeTransition, 1000);
+    transitionController = null;
+  }, { 
+    once: true,
+    signal: transitionController.signal 
+  });
 }
 
   galleryLinks.forEach(link => {
@@ -274,10 +279,17 @@ function returnToMainGallery() {
   gallery.style.display = 'grid';
   backButton.style.display = 'none';
   
-  // Directly reset background without transition
+  // Reset without transition
   const currentBg = document.getElementById('current-bg');
   currentBg.style.backgroundImage = "url('assets/background.png')";
   currentBg.style.opacity = '1';
+  
+  // Force-cancel any ongoing transitions
+  if (transitionController) {
+    transitionController.abort();
+    transitionController = null;
+  }
+  isTransitioning = false;
 }
 
   backButton.addEventListener('click', () => {
