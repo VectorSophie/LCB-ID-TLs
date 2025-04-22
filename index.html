@@ -113,15 +113,26 @@
     });
   });
 
+let currentBgUrl = '';
+let bgTransition = null;
+
 function changeBackground(bgUrl) {
+  // Cancel any ongoing transition
+  if (bgTransition) {
+    clearTimeout(bgTransition);
+    bgTransition = null;
+  }
+
+  // Skip if same background
+  if (bgUrl === currentBgUrl) return;
+  currentBgUrl = bgUrl;
+
   const currentBg = document.getElementById('current-bg');
   const newBg = document.getElementById('new-bg');
 
-  // Reset transitions
+  // Reset states
   newBg.style.transition = 'none';
   currentBg.style.transition = 'none';
-
-  // Set initial states
   newBg.style.backgroundImage = `url(${bgUrl})`;
   newBg.style.display = 'block';
   newBg.style.opacity = '0';
@@ -130,20 +141,18 @@ function changeBackground(bgUrl) {
   // Force reflow
   void newBg.offsetHeight;
 
-  // Enable transitions
+  // Start transition
   newBg.style.transition = 'opacity 1s ease-in-out';
   currentBg.style.transition = 'opacity 1s ease-in-out';
-
-  // Start transition
   newBg.style.opacity = '1';
   currentBg.style.opacity = '0';
 
-  newBg.addEventListener('transitionend', function handler() {
-    currentBg.style.backgroundImage = newBg.style.backgroundImage;
-    currentBg.style.opacity = '1';
+  // Cleanup after transition
+  bgTransition = setTimeout(() => {
+    currentBg.style.backgroundImage = `url(${bgUrl})`;
     newBg.style.display = 'none';
-    newBg.removeEventListener('transitionend', handler);
-  }, { once: true });
+    bgTransition = null;
+  }, 1000);
 }
 
   galleryLinks.forEach(link => {
