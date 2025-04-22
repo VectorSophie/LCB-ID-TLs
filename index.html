@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LCB ID Translations</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="preload" href="assets/mouse_on.png" as="image">
-  <link rel="preload" href="assets/sounds/hover.mp3" as="audio">
-  <link rel="preload" href="assets/sounds/click.mp3" as="audio">
+  <link rel="preload" href="assets/mouse_on.cur" as="image">
+  <link rel="preload" href="assets/UI_Hover.wav" as="audio">
+  <link rel="preload" href="assets/UI_Click.wav" as="audio">
 </head>
 <body>
 <!-- Background elements -->
@@ -78,11 +78,10 @@
 </div>
 
 <!-- Sounds -->
-<audio src="assets/sounds/hover.mp3" preload="auto" style="display:none;"></audio>
-<audio src="assets/sounds/click.mp3" preload="auto" style="display:none;"></audio>
+<audio src="assets/UI_Hover.wav" preload="auto" style="display:none;"></audio>
+<audio src="assets/UI_Click.wav" preload="auto" style="display:none;"></audio>
 
 <script>
-  // Existing audio and cache setup remains the same
   const hoverSoundTemplate = new Audio('assets/UI_Hover.wav');
   hoverSoundTemplate.volume = 0.7;
   const clickSound = new Audio('assets/UI_Click.wav');
@@ -92,13 +91,28 @@
   let currentCharacterGallery = null;
   let backButtonHandler = null;
 
-  // Modified gallery links selection
   const gallery = document.querySelector('.image-gallery');
   const galleryLinks = document.querySelectorAll('.image-gallery a');
   const dynamicContent = document.getElementById('dynamic-content');
   const backButton = document.getElementById('back-button');
 
-  // Add background transition function
+  // Restored hover sounds for back button
+  backButton.addEventListener('mouseenter', () => {
+    const hoverSound = hoverSoundTemplate.cloneNode();
+    hoverSound.play().catch((e) => {
+      console.warn("Hover sound failed to play:", e);
+    });
+  });
+
+  // Restored main gallery hover sounds
+  galleryLinks.forEach(link => {
+    const img = link.querySelector('img');
+    img.addEventListener('mouseenter', () => {
+      const hoverSound = hoverSoundTemplate.cloneNode();
+      hoverSound.play().catch(() => {});
+    });
+  });
+
   function changeBackground(bgUrl) {
     const currentBg = document.getElementById('current-bg');
     const newBg = document.getElementById('new-bg');
@@ -120,7 +134,6 @@
     });
   }
 
-  // Modified click handler for gallery images
   galleryLinks.forEach(link => {
     const img = link.querySelector('img');
     img.addEventListener('click', (e) => {
@@ -132,7 +145,6 @@
         setTimeout(() => { canClickPlay = true; }, 300);
       }
 
-      // Change background
       const bgImage = link.dataset.background;
       if (bgImage) changeBackground(bgImage);
 
@@ -157,7 +169,6 @@
     });
   });
 
-  // New event listener for sub-gallery clicks
   dynamicContent.addEventListener('click', function(e) {
     const galleryImg = e.target.closest('.character-gallery img');
     const bgLink = e.target.closest('[data-background]');
@@ -173,15 +184,43 @@
   });
 
   function showVoicelineDetail(imgElement) {
+    // Split data attributes into arrays
+    const voicelines = imgElement.dataset.voiceline?.split('|') || [];
+    const translations = imgElement.dataset.translation?.split('|') || [];
+    const audios = imgElement.dataset.audio?.split('|') || [];
+    const notes = imgElement.dataset.notes?.split('|') || [];
+
+    // Create table rows
+    const maxEntries = Math.max(voicelines.length, translations.length, audios.length, notes.length);
+    const rows = [];
+    
+    for (let i = 0; i < maxEntries; i++) {
+      rows.push(`
+        <tr>
+          <td>${voicelines[i]?.trim() || ''}</td>
+          <td>${translations[i]?.trim() || ''}</td>
+          <td>${audios[i]?.trim() ? `<audio controls src="${audios[i].trim()}"></audio>` : ''}</td>
+          <td>${notes[i]?.trim() || ''}</td>
+        </tr>
+      `);
+    }
+
     const detailHTML = `
       <div class="voiceline-detail">
         <img src="${imgElement.src}" alt="${imgElement.alt}" class="detail-image">
         <div class="spreadsheet">
           <table>
-            <tr><th>Voiceline</th><td>${imgElement.dataset.voiceline}</td></tr>
-            <tr><th>Translation</th><td>${imgElement.dataset.translation}</td></tr>
-            <tr><th>Audio</th><td><audio controls src="${imgElement.dataset.audio}"></td></tr>
-            <tr><th>Notes</th><td>${imgElement.dataset.notes}</td></tr>
+            <thead>
+              <tr>
+                <th>Voiceline</th>
+                <th>Translation</th>
+                <th>Audio</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.join('')}
+            </tbody>
           </table>
         </div>
       </div>
@@ -200,11 +239,15 @@
     dynamicContent.classList.remove('visible');
     gallery.style.display = 'grid';
     backButton.style.display = 'none';
-    changeBackground(''); // Reset to default background if needed
+    changeBackground('');
   }
 
-  // Modified back button handler
   backButton.addEventListener('click', () => {
+    clickSound.currentTime = 0;
+    clickSound.play().catch((e) => {
+      console.warn("Click sound failed to play:", e);
+    });
+
     if (backButtonHandler) {
       backButtonHandler();
     } else {
@@ -212,7 +255,6 @@
     }
   });
 
-  // Modified showContent function
   function showContent(html) {
     gallery.style.display = 'none';
     dynamicContent.innerHTML = html;
