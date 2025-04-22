@@ -115,14 +115,24 @@
 
 let isTransitioning = false;
 
-function changeBackground(bgUrl) {
-  if (isTransitioning) return;
-  isTransitioning = true;
+let currentTransition = null;
 
+function changeBackground(bgUrl) {
   const currentBg = document.getElementById('current-bg');
   const newBg = document.getElementById('new-bg');
 
-  // Reset states
+  // Cancel any ongoing transition
+  if (currentTransition) {
+    clearTimeout(currentTransition);
+    newBg.style.display = 'none';
+    newBg.style.opacity = '0';
+    currentBg.style.opacity = '1';
+  }
+
+  // Don't transition if same background
+  if (currentBg.style.backgroundImage === `url("${bgUrl}")`) return;
+
+  // Set up new background
   newBg.style.backgroundImage = `url(${bgUrl})`;
   newBg.style.display = 'block';
   newBg.style.opacity = '0';
@@ -134,13 +144,14 @@ function changeBackground(bgUrl) {
   newBg.style.opacity = '1';
   currentBg.style.opacity = '0';
 
-  newBg.addEventListener('transitionend', function handler() {
+  // Complete transition after 1s
+  currentTransition = setTimeout(() => {
     currentBg.style.backgroundImage = newBg.style.backgroundImage;
-    currentBg.style.opacity = '1';
     newBg.style.display = 'none';
-    newBg.removeEventListener('transitionend', handler);
-    isTransitioning = false;
-  }, { once: true });
+    newBg.style.opacity = '0';
+    currentBg.style.opacity = '1';
+    currentTransition = null;
+  }, 1000);
 }
 
   galleryLinks.forEach(link => {
@@ -246,13 +257,13 @@ function changeBackground(bgUrl) {
     backButtonHandler = returnToMainGallery;
   }
 
-  function returnToMainGallery() {
-    dynamicContent.innerHTML = '';
-    dynamicContent.classList.remove('visible');
-    gallery.style.display = 'grid';
-    backButton.style.display = 'none';
-    changeBackground('');
-  }
+function returnToMainGallery() {
+  dynamicContent.innerHTML = '';
+  dynamicContent.classList.remove('visible');
+  gallery.style.display = 'grid';
+  backButton.style.display = 'none';
+  changeBackground('assets/background.png'); // Reset to main background
+}
 
   backButton.addEventListener('click', () => {
     clickSound.currentTime = 0;

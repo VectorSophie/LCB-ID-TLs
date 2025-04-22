@@ -33,16 +33,7 @@ body {
 }
 
 body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: url('assets/background.png') no-repeat center center;
-  background-size: cover;
-  z-index: -1;
-  pointer-events: none;
+  content: none;
 }
 
 body {
@@ -228,14 +219,18 @@ button,
   height: 100%;
   background-size: cover;
   background-position: center;
-  z-index: -2; /* Changed from -1 */
   transition: opacity 1s ease-in-out;
+  z-index: -1;
+}
+
+#current-bg {
+  background-image: url('assets/background.png'); /* Initial background */
 }
 
 #new-bg {
-  z-index: -1; /* Higher than current-bg */
   display: none;
   opacity: 0;
+  z-index: 0; /* Higher than current-bg during transition */
 }
 
 #youtube-profile {
