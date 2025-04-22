@@ -10,9 +10,6 @@
   <link rel="preload" href="assets/UI_Click.wav" as="audio">
 </head>
 <body>
-<!-- Background elements -->
-<div class="body-bg" id="current-bg"></div>
-<div class="body-bg" id="new-bg"></div>
 
 <div class="bg-container">
   <div class="body-bg" id="current-bg"></div>
@@ -131,15 +128,16 @@ function preloadImage(url) {
   });
 }
 
+let isTransitioning = false;
+
 async function changeBackground(bgUrl) {
-  if (bgTransition) return;
-  
-  // Preload the image first
-  await preloadImage(bgUrl);
-  
-  bgTransition = true;
-  
-  // Set up new background
+  if (isTransitioning) return;
+  isTransitioning = true;
+
+  const currentBg = document.getElementById('current-bg');
+  const newBg = document.getElementById('new-bg');
+
+  // Reset states
   newBg.style.backgroundImage = `url(${bgUrl})`;
   newBg.style.display = 'block';
   newBg.style.opacity = '0';
@@ -147,8 +145,8 @@ async function changeBackground(bgUrl) {
   currentBg.style.zIndex = '-1';
 
   // Force reflow
-  void newBg.offsetHeight;
-
+  await new Promise(resolve => requestAnimationFrame(resolve));
+  
   // Start transition
   newBg.style.opacity = '1';
   currentBg.style.opacity = '0';
@@ -156,11 +154,11 @@ async function changeBackground(bgUrl) {
   newBg.addEventListener('transitionend', function handler() {
     currentBg.style.backgroundImage = newBg.style.backgroundImage;
     currentBg.style.opacity = '1';
-    currentBg.style.zIndex = '-1';
     newBg.style.display = 'none';
     newBg.style.opacity = '0';
     newBg.style.zIndex = '0';
-    bgTransition = null;
+    currentBg.style.zIndex = '-1';
+    isTransitioning = false;
     newBg.removeEventListener('transitionend', handler);
   }, { once: true });
 }

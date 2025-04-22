@@ -215,6 +215,15 @@ body {
   background-color: #000; /* Fallback color */
 }
 
+.bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
 .body-bg {
   position: fixed;
   top: 0;
@@ -225,11 +234,7 @@ body {
   background-position: center;
   transition: opacity 1s ease-in-out;
   z-index: -1;
-  background-color: #000; /* Prevent transparency issues */
-}
-
-#current-bg {
-  background-image: url('assets/background.png'); /* Initial background */
+  background-color: #000;
 }
 
 #new-bg {
@@ -238,15 +243,10 @@ body {
   z-index: 0;
 }
 
-.bg-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
+#current-bg {
+  z-index: -1;
+  background-image: url('assets/background.png');
 }
-
 #youtube-profile {
   position: fixed;
   top: 20px;
