@@ -77,15 +77,19 @@
       img.classList.remove('fade-in', 'hover-enabled');
       img.classList.add('pending-animation');
 
-      // Delay animation per image with requestAnimationFrame for smoother async
-      setTimeout(() => {
-        img.classList.add('fade-in');
-        img.addEventListener('animationend', function handler() {
-          img.classList.remove('pending-animation');
-          img.classList.add('hover-enabled');
-          img.removeEventListener('animationend', handler);
-        });
-      }, index * 100);
+      // Trigger animation with staggered delay
+      img.style.animation = 'none';
+      void img.offsetWidth; // trigger reflow
+      img.style.animation = `fadeInUp 0.5s ease forwards`;
+      img.style.animationDelay = `${index * 100}ms`;
+
+      img.addEventListener('animationend', function handler() {
+        img.classList.remove('pending-animation');
+        img.classList.add('hover-enabled');
+        img.style.animation = ''; // clear inline animation
+        img.style.animationDelay = ''; // clear inline delay
+        img.removeEventListener('animationend', handler);
+      });
     });
 
     setTimeout(() => {
@@ -93,7 +97,7 @@
     }, images.length * 100 + 500);
   }
 
-  // Animate once on first page load
+  // Run on initial load
   document.addEventListener('DOMContentLoaded', () => {
     animateGalleryImages();
   });
@@ -115,7 +119,6 @@
     animateGalleryImages();
   });
 
-  // Add hover and click sounds
   galleryLinks.forEach(link => {
     const img = link.querySelector('img');
 
@@ -164,6 +167,7 @@
     backButton.style.display = 'block';
   }
 </script>
+
 
 
 

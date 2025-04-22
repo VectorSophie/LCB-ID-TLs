@@ -186,10 +186,6 @@ body:active {
   transform: translateY(30px);
 }
 
-.image-gallery.animate img.fade-in {
-  animation: fadeInUp 0.5s ease forwards;
-}
-
 #youtube-profile {
   position: fixed;
   top: 20px;
