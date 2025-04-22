@@ -80,8 +80,8 @@ body:active {
 #dynamic-content {
   margin-top: 40px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.00);
+  border-top: 1px solid rgba(255, 255, 255, 0.0);
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.4s ease, transform 0.4s ease;
@@ -98,24 +98,6 @@ body:active {
   padding: 20px;
   margin-top: 20px;
 }
-
-
-#back-to-top {
-  background-color: #222;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  opacity: 0.8;
-  transition: opacity 0.3s;
-}
-
-#back-to-top:hover {
-  opacity: 1;
-}
-
 
 .overlay {
   background-color: rgba(0, 0, 0, 0.0);
@@ -163,28 +145,26 @@ body:active {
 }
 
 #back-button {
+  background: none;
+  border: none;
+  padding: 0;
   position: fixed;
   top: 20px;
   left: 20px;
-  background-color: #222;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 5px;
-  font-size: 14px;
-  z-index: 10001;
-  opacity: 0.9;
-  cursor: pointer;
-  font-family: 'Pretendard', sans-serif;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 9999;
+  cursor: url('assets/mouse_on.cur'), pointer;
 }
 
-#back-button:hover {
-  background-color: #333;
-  transform: scale(1.05);
-  opacity: 1;
+#back-button img {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.2s ease;
 }
+
+#back-button:hover img {
+  transform: scale(1.1);
+}
+
 
 @keyframes fadeInUp {
   0% {
