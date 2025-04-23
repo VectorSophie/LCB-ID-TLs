@@ -6,9 +6,11 @@
   <title>LCB ID Translations</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preload" href="assets/mouse_on.cur" as="image">
-  <link rel="preload" href="https://notherwael.github.io/LCB-ID-TLs/assets/Yi_Sang/10104_gacksung.png" as="image">
   <link rel="preload" href="assets/UI_Hover.wav" as="audio">
   <link rel="preload" href="assets/UI_Click.wav" as="audio">
+  <link rel="preload" href="assets/background.png" as="image">
+  <link rel="preload" href="assets/Yi_Sang/LCB_YiSang.png" as="image">
+  <link rel="preload" href="assets/Faust/LCB_Faust.png" as="image">
 </head>
 <body>
 
@@ -115,18 +117,40 @@
 let currentBg = document.getElementById('current-bg');
 let newBg = document.getElementById('new-bg');
 
-// Preload all background images from character links
+function preloadAllGalleryAssets() {
+  // Preload main gallery images and backgrounds
+  document.querySelectorAll('.image-gallery a').forEach(link => {
+    // Preload background
+    const bgLoader = new Image();
+    bgLoader.src = link.dataset.background;
+    
+    // Preload character image
+    const imgLoader = new Image();
+    imgLoader.src = link.querySelector('img').src;
+  });
+
+  // Preload dynamic character gallery assets
+  document.querySelectorAll('.character-voice').forEach(link => {
+    const bgLoader = new Image();
+    bgLoader.src = link.dataset.background;
+    const imgLoader = new Image();
+    imgLoader.src = link.querySelector('img').src;
+  });
+}
+
 function preloadCharacterBackgrounds() {
-  const bgLinks = document.querySelectorAll('.character-voice[data-background]');
-  bgLinks.forEach(link => {
+  // Preload both main and character gallery backgrounds
+  document.querySelectorAll('[data-background]').forEach(link => {
     const img = new Image();
     img.src = link.dataset.background;
   });
 }
 
 // Call it when the page loads
-document.addEventListener('DOMContentLoaded', preloadCharacterBackgrounds);
-
+document.addEventListener('DOMContentLoaded', () => {
+  preloadCharacterBackgrounds();
+  preloadAllGalleryAssets();
+  });
 // Preload images
 function preloadImage(url) {
   return new Promise((resolve) => {
@@ -279,7 +303,9 @@ function returnToMainGallery() {
     gallery.style.display = 'none';
     dynamicContent.innerHTML = html;
     dynamicContent.classList.add('visible');
-    backButton.style.display = 'block';
+    backButton.style.display = 'block';	
+	
+	preloadAllGalleryAssets();
 
     const characterGallery = dynamicContent.querySelector('.character-gallery');
     if (characterGallery) {
