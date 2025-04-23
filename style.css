@@ -441,3 +441,52 @@ body {
     width: 100%;
   }
 }
+
+/* Mobile spreadsheet fixes */
+@media (max-width: 600px) {
+  /* Fix spreadsheet container */
+  .voiceline-detail {
+    grid-template-columns: 1fr;
+    padding: 10px;
+    width: 100vw;
+    margin-left: -10px;
+  }
+
+  /* Fix spreadsheet table */
+  .spreadsheet {
+    overflow-x: auto;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .spreadsheet table {
+    min-width: 600px; /* Minimum width for scrollable table */
+  }
+
+  /* Fix header positioning */
+  .voiceline-detail h1,
+  .voiceline-detail p {
+    position: static !important;
+    text-align: center;
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  /* Adjust back button position */
+  #back-button {
+    left: 10px;
+    top: 10px;
+  }
+
+  #back-button img {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Fix dynamic content positioning */
+  #dynamic-content {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+  }
+}
