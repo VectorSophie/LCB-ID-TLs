@@ -209,7 +209,7 @@ button,
   color: #d4e1e8 !important;
   font-weight: 500;
   letter-spacing: normal; /* Added to fix spacing */
-  min-width: 400px; /* Adjust this value as needed */
+  min-width: 440px; /* Adjust this value as needed */
   max-width: 600px; /* Maximum width before text wraps */
   width: 30%; /* Percentage-based width */
   white-space: normal;
@@ -223,7 +223,7 @@ button,
   color: #ffb1b4 !important;
   font-weight: 500;
   letter-spacing: normal;
-  min-width: 400px; 
+  min-width: 440px; 
   max-width: 600px; 
   width: 30%; 
   white-space: normal;
@@ -237,7 +237,7 @@ button,
   color: #ffef23 !important;
   font-weight: 500;
   letter-spacing: normal;
-  min-width: 400px; 
+  min-width: 440px; 
   max-width: 600px; 
   width: 30%; 
   white-space: normal;
