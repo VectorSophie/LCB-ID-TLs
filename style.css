@@ -344,3 +344,51 @@ body {
   }
 }
 
+@media (max-width: 600px) {
+  .overlay {
+    padding: 20px 10px; /* Reduce padding */
+    min-height: -webkit-fill-available; /* Better mobile height */
+    align-items: stretch; /* Full height alignment */
+  }
+
+  .content {
+    padding: 15px;
+    width: 100%;
+  }
+
+  .content h1,
+  .content p {
+    position: static; /* Remove sticky on mobile */
+    text-align: center;
+    width: 100%;
+    margin: 0 0 15px 0;
+    padding: 10px;
+  }
+
+  .image-gallery,
+  .character-gallery {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
+    gap: 10px;
+    padding: 0;
+    margin-left: 0; /* Remove left margin */
+  }
+
+  /* Ensure full width for gallery items */
+  .image-gallery a,
+  .character-gallery a {
+    width: 100%;
+  }
+
+  /* Fix viewport height issues */
+  html, body {
+    height: -webkit-fill-available;
+    min-height: 100vh;
+  }
+}
+
+/* Add this for iOS Safari specifically */
+@supports (-webkit-touch-callout: none) {
+  .overlay {
+    min-height: -webkit-fill-available;
+  }
+}
