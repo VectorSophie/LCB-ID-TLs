@@ -192,6 +192,8 @@ async function changeBackground(bgUrl) {
 function showVoicelineDetail(imgElement) {
   const parentLink = imgElement.closest('.character-voice');
   
+  const pageClass = parentLink.dataset.page || '';
+  
   // Split data attributes with error handling
   const voicelines = (parentLink.dataset.voiceline || "").split('|').map(v => v.trim());
   const translations = (parentLink.dataset.translation || "").split('|').map(v => v.trim());
@@ -218,7 +220,7 @@ function showVoicelineDetail(imgElement) {
   }
 
   const detailHTML = `
-    <div class="voiceline-detail">
+    <div class="voiceline-detail ${pageClass}">
       <img src="${imgElement.src}" alt="${imgElement.alt}" class="detail-image">
       <div class="spreadsheet">
         <table>
