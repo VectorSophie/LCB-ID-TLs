@@ -442,3 +442,41 @@ body {
   }
 }
 
+
+/* Add these styles to your CSS */
+.overlay {
+  position: fixed; /* Changed from default */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto; /* Allow vertical scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Mobile-specific fixes */
+@media (max-width: 600px) {
+  .spreadsheet {
+    width: 100vw;
+    margin-left: -20px;
+    padding: 10px;
+  }
+
+  .spreadsheet table {
+    min-width: 100% !important; /* Force table to parent width */
+    font-size: 0.8em; /* Smaller text */
+  }
+
+  .spreadsheet td, 
+  .spreadsheet th {
+    padding: 8px 10px; /* Reduce padding */
+  }
+
+  /* Force horizontal scrolling for wide tables */
+  .spreadsheet {
+    overflow-x: auto;
+    display: block;
+  }
+}
