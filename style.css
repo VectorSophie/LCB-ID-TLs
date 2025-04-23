@@ -195,6 +195,14 @@ button,
   white-space: pre-wrap;
 }
 
+.spreadsheet td:nth-child(1) {
+  font-weight: 400;
+  letter-spacing: normal; /* Added to fix spacing */
+  min-width: 240px; /* Adjust this value as needed */
+  max-width: 300px; /* Maximum width before text wraps */
+  word-break: break-word;
+}
+
 /* Fixed Translation Column Styles */
 .spreadsheet td:nth-child(2) {
   font-family: 'Pretendard', sans-serif;
@@ -226,8 +234,8 @@ button,
 
 .spreadsheet td:nth-child(4) {
   letter-spacing: normal; /* Added to fix spacing */
-  min-width: 400px; /* Adjust this value as needed */
-  max-width: 600px; /* Maximum width before text wraps */
+  min-width: 300px; /* Adjust this value as needed */
+  max-width: 400px; /* Maximum width before text wraps */
   word-break: break-word;
   padding: 8px 12px;
   line-height: 1.5;
