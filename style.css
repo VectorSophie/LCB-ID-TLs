@@ -330,15 +330,6 @@ button,
   border-top: 1px dashed #ffffff50;
 }
 
-.unused-section::before {
-  content: "UNUSED:";
-  display: block;
-  font-family: 'Mikodacs', sans-serif;
-  color: #ff6666;
-  font-size: 0.9em;
-  margin-bottom: 8px;
-}
-
 .unused-audio {
   opacity: 0.7;
 }
