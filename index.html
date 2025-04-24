@@ -226,26 +226,35 @@ function showVoicelineDetail(imgElement) {
 
   let rows = [];
   for (let i = 0; i < translations.length; i++) {
-    // Process main audio files
-    const mainAudioUrls = audios[i] ? audios[i].split(',').filter(url => url.trim()) : [];
-    const mainAudioElements = mainAudioUrls.map(url => 
-      `<audio controls class="audio-stack"><source src="${url.trim()}" type="audio/wav"></audio>`
+    const audioEntry = audios[i] || '';
+    const [mainSection, unusedSection] = audioEntry.split(';').map(s => s.trim());
+    
+    // Process main audio
+    const mainAudio = mainSection.split(',').filter(url => url.trim());
+    const mainElements = mainAudio.map(url => 
+      `<audio controls class="audio-stack"><source src="${url}"></audio>`
     ).join('');
 
-    // Process unused audio files (if any)
-    const unusedAudioSection = mainAudioUrls.length > 1 ? 
-      `<div class="unused-section">UNUSED:${mainAudioUrls.slice(1).map(url => 
-        `<audio controls class="audio-stack"><source src="${url.trim()}" type="audio/wav"></audio>`
-      ).join('')}</div>` : '';
+    // Process unused audio
+    const unusedAudio = unusedSection ? unusedSection.split(',').filter(url => url.trim()) : [];
+    const unusedElements = unusedAudio.map(url => 
+      `<audio controls class="audio-stack unused"><source src="${url}"></audio>`
+    ).join('');
+
+    // Build audio column
+    let audioColumn = '—';
+    if (mainElements || unusedElements) {
+      audioColumn = `
+        ${mainElements}
+        ${unusedElements ? `<div class="unused-section">UNUSED:${unusedElements}</div>` : ''}
+      `;
+    }
 
     rows.push(`
       <tr>
         <td>${voicelines[i] || '—'}</td>
         <td>${translations[i] || '—'}</td>
-        <td>
-          ${mainAudioUrls.length > 0 ? mainAudioElements : '—'}
-          ${unusedAudioSection}
-        </td>
+        <td>${audioColumn}</td>
         <td>${notes[i] || '—'}</td>
       </tr>
     `);
