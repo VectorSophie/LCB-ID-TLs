@@ -33,7 +33,7 @@
 <div class="overlay">
   <div class="content mikodacs-text">
     <h1>LCB Identities - Untranslated Voicelines Translated to English</h1>
-    <p>Updated 21th April - Translations are Unofficial and can be wrong at times...</p>
+    <p>CURRENTLY WIP (Use Landscape if on Mobile) - Translations are Unofficial and can be wrong at times...</p>
 
     <!-- Main Image Gallery -->
     <div class="image-gallery">
@@ -230,12 +230,26 @@ function showVoicelineDetail(imgElement) {
 
   // Create rows based on translation count
   let rows = [];
-  for (let i = 0; i < translations.length; i++) {
-    // Handle multiple audios per row
-    const audioUrls = audios[i] ? audios[i].split(',') : [];
-    const audioElements = audioUrls.map(url => 
-      `<audio controls class="audio-stack"><source src="${url.trim()}" type="audio/wav"></audio>`
-    ).join('');
+for (let i = 0; i < translations.length; i++) {
+  // Split audio into main and unused
+  const [mainAudio, unusedAudio] = audios[i] ? audios[i].split(';') : ['', ''];
+  
+  // Process main audio
+  const mainAudioUrls = mainAudio.split(',').filter(Boolean);
+  const mainAudioElements = mainAudioUrls.map(url => 
+    `<audio controls class="audio-stack"><source src="${url.trim()}" type="audio/wav"></audio>`
+  ).join('');
+
+  // Process unused audio
+  const unusedAudioUrls = unusedAudio.split(',').filter(Boolean);
+  const unusedAudioElements = unusedAudioUrls.map(url => 
+    `<audio controls class="audio-stack unused-audio"><source src="${url.trim()}" type="audio/wav"></audio>`
+  ).join('');
+
+  // Add unused section if needed
+  const audioSection = unusedAudioElements 
+    ? `${mainAudioElements}<div class="unused-section">UNUSED:${unusedAudioElements}</div>`
+    : mainAudioElements;
 
     rows.push(`
       <tr>
