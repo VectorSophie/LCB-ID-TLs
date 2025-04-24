@@ -244,7 +244,7 @@ button,
 }
 
 .spreadsheet td {
-  white-space: pre-wrap;
+  white-space: normal !important; /* Ensure text wrapping */
 }
 
 .spreadsheet td:nth-child(1) {
