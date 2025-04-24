@@ -213,7 +213,7 @@
   }
 });
 
-  function showVoicelineDetail(imgElement) {
+function showVoicelineDetail(imgElement) {
   const parentLink = imgElement.closest('.character-voice');
   const pageClass = parentLink.dataset.page || '';
   const charTitle = parentLink.dataset.characterTitle || "Character Name";
@@ -226,64 +226,58 @@
 
   let rows = [];
   for (let i = 0; i < translations.length; i++) {
-    // Safely get audio for this row
-    const rowAudio = audios[i] || '';
-    
-    // Split into main/unused sections
-    const [mainAudio = '', unusedAudio = ''] = rowAudio.split(';');
-    
     // Process main audio files
-    const mainAudioElements = mainAudio.split(',')
-      .filter(url => url.trim())
-      .map(url => `<audio controls><source src="${url.trim()}"></audio>`)
-      .join('');
+    const mainAudioUrls = audios[i] ? audios[i].split(',').filter(url => url.trim()) : [];
+    const mainAudioElements = mainAudioUrls.map(url => 
+      `<audio controls class="audio-stack"><source src="${url.trim()}" type="audio/wav"></audio>`
+    ).join('');
 
-    // Process unused audio files
-    const unusedAudioElements = unusedAudio.split(',')
-      .filter(url => url.trim())
-      .map(url => `<audio controls class="unused"><source src="${url.trim()}"></audio>`)
-      .join('');
+    // Process unused audio files (if any)
+    const unusedAudioSection = mainAudioUrls.length > 1 ? 
+      `<div class="unused-section">UNUSED:${mainAudioUrls.slice(1).map(url => 
+        `<audio controls class="audio-stack"><source src="${url.trim()}" type="audio/wav"></audio>`
+      ).join('')}</div>` : '';
 
     rows.push(`
       <tr>
         <td>${voicelines[i] || '—'}</td>
         <td>${translations[i] || '—'}</td>
         <td>
-          ${mainAudioElements}
-          ${unusedAudioElements ? `<div class="unused-section">UNUSED: ${unusedAudioElements}</div>` : ''}
+          ${mainAudioUrls.length > 0 ? mainAudioElements : '—'}
+          ${unusedAudioSection}
         </td>
         <td>${notes[i] || '—'}</td>
       </tr>
     `);
   }
 
-    const detailHTML = `
-      <div class="voiceline-detail ${pageClass}">
-        <div class="detail-header">
-          <img src="${charIcon}" alt="${charTitle} Icon">
-          <h2>${charTitle}</h2>
-        </div>
-        <img src="${imgElement.src}" alt="${imgElement.alt}" class="detail-image">
-        <div class="spreadsheet">
-          <table>
-            <thead>
-              <tr>
-                <th>Voiceline</th>
-                <th>Translation</th>
-                <th>Audio</th>
-                <th>Notes</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rows.join('')}
-            </tbody>
-          </table>
-        </div>
+  const detailHTML = `
+    <div class="voiceline-detail ${pageClass}">
+      <div class="detail-header">
+        <img src="${charIcon}" alt="${charTitle} Icon">
+        <h2>${charTitle}</h2>
       </div>
-    `;
-    dynamicContent.innerHTML = detailHTML;
-    backButtonHandler = returnToCharacterGallery;
-  }
+      <img src="${imgElement.src}" alt="${imgElement.alt}" class="detail-image">
+      <div class="spreadsheet">
+        <table>
+          <thead>
+            <tr>
+              <th>Voiceline</th>
+              <th>Translation</th>
+              <th>Audio</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+  dynamicContent.innerHTML = detailHTML;
+  backButtonHandler = returnToCharacterGallery;
+}
 
   function returnToCharacterGallery() {
     dynamicContent.innerHTML = currentCharacterGallery;
