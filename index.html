@@ -99,7 +99,7 @@
   const dynamicContent = document.getElementById('dynamic-content');
   const backButton = document.getElementById('back-button');
 
-  // Restored hover sounds for back button
+  // Hover sounds for back button
   backButton.addEventListener('mouseenter', () => {
     const hoverSound = hoverSoundTemplate.cloneNode();
     hoverSound.play().catch((e) => {
@@ -107,7 +107,7 @@
     });
   });
 
-  // Restored main gallery hover sounds
+  // Main gallery hover sounds
   galleryLinks.forEach(link => {
     const img = link.querySelector('img');
     img.addEventListener('mouseenter', () => {
@@ -116,56 +116,42 @@
     });
   });
 
-let currentBg = document.getElementById('current-bg');
-let newBg = document.getElementById('new-bg');
+  let currentBg = document.getElementById('current-bg');
+  let newBg = document.getElementById('new-bg');
 
-function preloadAllGalleryAssets() {
-  // Preload main gallery images and backgrounds
-  document.querySelectorAll('.image-gallery a').forEach(link => {
-    // Preload background
-    const bgLoader = new Image();
-    bgLoader.src = link.dataset.background;
-    
-    // Preload character image
-    const imgLoader = new Image();
-    imgLoader.src = link.querySelector('img').src;
+  function preloadAllGalleryAssets() {
+    document.querySelectorAll('.image-gallery a').forEach(link => {
+      const bgLoader = new Image();
+      bgLoader.src = link.dataset.background;
+      const imgLoader = new Image();
+      imgLoader.src = link.querySelector('img').src;
+    });
+
+    document.querySelectorAll('.character-voice').forEach(link => {
+      const bgLoader = new Image();
+      bgLoader.src = link.dataset.background;
+      const imgLoader = new Image();
+      imgLoader.src = link.querySelector('img').src;
+    });
+  }
+
+  function preloadCharacterBackgrounds() {
+    document.querySelectorAll('[data-background]').forEach(link => {
+      const img = new Image();
+      img.src = link.dataset.background;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    preloadCharacterBackgrounds();
+    preloadAllGalleryAssets();
   });
 
-  // Preload dynamic character gallery assets
-  document.querySelectorAll('.character-voice').forEach(link => {
-    const bgLoader = new Image();
-    bgLoader.src = link.dataset.background;
-    const imgLoader = new Image();
-    imgLoader.src = link.querySelector('img').src;
-  });
-}
+  async function changeBackground(bgUrl) {
+    const currentBg = document.getElementById('current-bg');
+    currentBg.style.backgroundImage = `url(${bgUrl})`;
+  }
 
-function preloadCharacterBackgrounds() {
-  // Preload both main and character gallery backgrounds
-  document.querySelectorAll('[data-background]').forEach(link => {
-    const img = new Image();
-    img.src = link.dataset.background;
-  });
-}
-
-// Call it when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-  preloadCharacterBackgrounds();
-  preloadAllGalleryAssets();
-  });
-// Preload images
-function preloadImage(url) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.src = url;
-    img.onload = resolve;
-  });
-}
-
-async function changeBackground(bgUrl) {
-  const currentBg = document.getElementById('current-bg');
-  currentBg.style.backgroundImage = `url(${bgUrl})`;
-}
   galleryLinks.forEach(link => {
     const img = link.querySelector('img');
     img.addEventListener('click', (e) => {
@@ -205,130 +191,106 @@ async function changeBackground(bgUrl) {
     const galleryImg = e.target.closest('.character-gallery img');
     const bgLink = e.target.closest('[data-background]');
     
-    if (bgLink) {
-      changeBackground(bgLink.dataset.background);
-    }
-    
+    if (bgLink) changeBackground(bgLink.dataset.background);
     if (galleryImg) {
       e.preventDefault();
       showVoicelineDetail(galleryImg);
     }
   });
 
-function showVoicelineDetail(imgElement) {
-  const parentLink = imgElement.closest('.character-voice');
-  
-  const pageClass = parentLink.dataset.page || '';
-  const charTitle = parentLink.dataset.characterTitle || "Character Name";
-  const charIcon = parentLink.dataset.characterIcon || "default_icon.png";
-  
-  // Split data attributes with error handling
-  const voicelines = (parentLink.dataset.voiceline || "").split('|').map(v => v.trim());
-  const translations = (parentLink.dataset.translation || "").split('|').map(v => v.trim());
-  const audios = (parentLink.dataset.audio || "").split('|').map(v => v.trim());
-  const notes = (parentLink.dataset.notes || "").split('|').map(v => v.trim());
+  function showVoicelineDetail(imgElement) {
+    const parentLink = imgElement.closest('.character-voice');
+    const pageClass = parentLink.dataset.page || '';
+    const charTitle = parentLink.dataset.characterTitle || "Character Name";
+    const charIcon = parentLink.dataset.characterIcon || "default_icon.png";
 
-  // Create rows based on translation count
-  let rows = [];
-for (let i = 0; i < translations.length; i++) {
-  // Split audio into main and unused
-  const [mainAudio, unusedAudio] = audios[i] ? audios[i].split(';') : ['', ''];
-  
-  // Process main audio
-  const mainAudioUrls = mainAudio.split(',').filter(Boolean);
-  const mainAudioElements = mainAudioUrls.map(url => 
-    `<audio controls class="audio-stack"><source src="${url.trim()}" type="audio/wav"></audio>`
-  ).join('');
+    const voicelines = (parentLink.dataset.voiceline || "").split('|').map(v => v.trim());
+    const translations = (parentLink.dataset.translation || "").split('|').map(v => v.trim());
+    const audios = (parentLink.dataset.audio || "").split('|').map(v => v.trim());
+    const notes = (parentLink.dataset.notes || "").split('|').map(v => v.trim());
 
-  // Process unused audio
-  const unusedAudioUrls = unusedAudio.split(',').filter(Boolean);
-  const unusedAudioElements = unusedAudioUrls.map(url => 
-    `<audio controls class="audio-stack unused-audio"><source src="${url.trim()}" type="audio/wav"></audio>`
-  ).join('');
+    let rows = [];
+    for (let i = 0; i < translations.length; i++) {
+      const [mainAudio, unusedAudio] = audios[i] ? audios[i].split(';') : ['', ''];
+      
+      const mainAudioUrls = mainAudio.split(',').filter(Boolean);
+      const mainAudioElements = mainAudioUrls.map(url => 
+        `<audio controls class="audio-stack"><source src="${url.trim()}" type="audio/wav"></audio>`
+      ).join('');
 
-  // Add unused section if needed
-  const audioSection = unusedAudioElements 
-    ? `${mainAudioElements}<div class="unused-section">UNUSED:${unusedAudioElements}</div>`
-    : mainAudioElements;
+      const unusedAudioUrls = unusedAudio.split(',').filter(Boolean);
+      const unusedAudioElements = unusedAudioUrls.map(url => 
+        `<audio controls class="audio-stack unused-audio"><source src="${url.trim()}" type="audio/wav"></audio>`
+      ).join('');
 
-    rows.push(`
-      <tr>
-        <td>${voicelines[i] || '—'}</td>
-        <td>${translations[i] || '—'}</td>
-        <td>${audioElements || '—'}</td>
-        <td>${notes[i] || '—'}</td>
-      </tr>
-    `);
-  }
+      const audioSection = unusedAudioElements 
+        ? `${mainAudioElements}<div class="unused-section">UNUSED:${unusedAudioElements}</div>`
+        : mainAudioElements;
 
-  const detailHTML = `
-    <div class="voiceline-detail ${pageClass}">
-	  <div class="detail-header">
-	   <img src="${charIcon}" alt="${charTitle} Icon">
-	   <h2>${charTitle}</h2>
-	  </div>
-      <img src="${imgElement.src}" alt="${imgElement.alt}" class="detail-image">
-      <div class="spreadsheet">
-        <table>
-          <thead>
-            <tr>
-              <th>Voiceline</th>
-              <th>Translation</th>
-              <th>Audio</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows.join('')}
-          </tbody>
-        </table>
+      rows.push(`
+        <tr>
+          <td>${voicelines[i] || '—'}</td>
+          <td>${translations[i] || '—'}</td>
+          <td>${audioSection || '—'}</td>
+          <td>${notes[i] || '—'}</td>
+        </tr>
+      `);
+    }
+
+    const detailHTML = `
+      <div class="voiceline-detail ${pageClass}">
+        <div class="detail-header">
+          <img src="${charIcon}" alt="${charTitle} Icon">
+          <h2>${charTitle}</h2>
+        </div>
+        <img src="${imgElement.src}" alt="${imgElement.alt}" class="detail-image">
+        <div class="spreadsheet">
+          <table>
+            <thead>
+              <tr>
+                <th>Voiceline</th>
+                <th>Translation</th>
+                <th>Audio</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.join('')}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  `;
-  dynamicContent.innerHTML = detailHTML;
-  backButtonHandler = returnToCharacterGallery;
-}
+    `;
+    dynamicContent.innerHTML = detailHTML;
+    backButtonHandler = returnToCharacterGallery;
+  }
 
   function returnToCharacterGallery() {
     dynamicContent.innerHTML = currentCharacterGallery;
     backButtonHandler = returnToMainGallery;
   }
 
-function returnToMainGallery() {
-  dynamicContent.innerHTML = '';
-  dynamicContent.classList.remove('visible');
-  gallery.style.display = 'grid';
-  backButton.style.display = 'none';
-  
-  const defaultBg = new Image();
-  defaultBg.src = 'assets/background.png';
-  
-  // Reset background immediately
-  const currentBg = document.getElementById('current-bg');
-  currentBg.style.backgroundImage = "url('assets/background.png')";
-}
+  function returnToMainGallery() {
+    dynamicContent.innerHTML = '';
+    dynamicContent.classList.remove('visible');
+    gallery.style.display = 'grid';
+    backButton.style.display = 'none';
+    document.getElementById('current-bg').style.backgroundImage = "url('assets/background.png')";
+  }
 
   backButton.addEventListener('click', () => {
     clickSound.currentTime = 0;
-    clickSound.play().catch((e) => {
-      console.warn("Click sound failed to play:", e);
-    });
-
-    if (backButtonHandler) {
-      backButtonHandler();
-    } else {
-      returnToMainGallery();
-    }
+    clickSound.play().catch(console.warn);
+    backButtonHandler ? backButtonHandler() : returnToMainGallery();
   });
 
   function showContent(html) {
     gallery.style.display = 'none';
     dynamicContent.innerHTML = html;
     dynamicContent.classList.add('visible');
-    backButton.style.display = 'block';	
-	
-	preloadAllGalleryAssets();
-
+    backButton.style.display = 'block';
+    preloadAllGalleryAssets();
+    
     const characterGallery = dynamicContent.querySelector('.character-gallery');
     if (characterGallery) {
       currentCharacterGallery = dynamicContent.innerHTML;
