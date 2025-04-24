@@ -155,37 +155,69 @@
   galleryLinks.forEach(link => {
     const img = link.querySelector('img');
     img.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (canClickPlay) {
-        clickSound.currentTime = 0;
-        clickSound.play().catch(() => {});
-        canClickPlay = false;
-        setTimeout(() => { canClickPlay = true; }, 300);
-      }
+        e.preventDefault();
+        if (canClickPlay) {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(() => {});
+            canClickPlay = false;
+            setTimeout(() => { canClickPlay = true; }, 300);
+        }
 
-      const bgImage = link.dataset.background;
-      if (bgImage) changeBackground(bgImage);
+        const bgImage = link.dataset.background;
+        if (bgImage) changeBackground(bgImage);
 
-      const targetUrl = link.getAttribute('href');
-      if (cache.has(targetUrl)) {
-        showContent(cache.get(targetUrl));
-      } else {
-        fetch(targetUrl)
-          .then(response => response.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const content = doc.body.innerHTML;
-            cache.set(targetUrl, content);
-            showContent(content);
-          })
-          .catch(err => {
-            dynamicContent.innerHTML = "<p>Error loading content.</p>";
-            console.error(err);
-          });
-      }
+        const targetUrl = link.getAttribute('href');
+        
+        // Update browser history
+        history.pushState({ contentUrl: targetUrl }, '', targetUrl);
+        
+        if (cache.has(targetUrl)) {
+            showContent(cache.get(targetUrl), targetUrl);
+        } else {
+            fetch(targetUrl)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const content = doc.body.innerHTML;
+                    cache.set(targetUrl, content);
+                    showContent(content, targetUrl);
+                })
+                .catch(err => {
+                    dynamicContent.innerHTML = "<p>Error loading content.</p>";
+                    console.error(err);
+                });
+        }
     });
-  });
+});
+
+window.addEventListener('popstate', (event) => {
+    if (event.state && event.state.contentUrl) {
+        loadCharacterPage(event.state.contentUrl);
+    } else {
+        returnToMainGallery();
+    }
+});
+
+function loadCharacterPage(url) {
+    if (cache.has(url)) {
+        showContent(cache.get(url), url);
+    } else {
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const content = doc.body.innerHTML;
+                cache.set(url, content);
+                showContent(content, url);
+            })
+            .catch(err => {
+                dynamicContent.innerHTML = "<p>Error loading content.</p>";
+                console.error(err);
+            });
+    }
+}
 
   dynamicContent.addEventListener('click', function(e) {
     const galleryImg = e.target.closest('.character-gallery img');
@@ -292,19 +324,32 @@
     backButtonHandler ? backButtonHandler() : returnToMainGallery();
   });
 
-  function showContent(html) {
+function showContent(html, url) {
     gallery.style.display = 'none';
     dynamicContent.innerHTML = html;
     dynamicContent.classList.add('visible');
     backButton.style.display = 'block';
-    preloadAllGalleryAssets();
     
+    // Update page title if needed
+    const pageTitle = document.querySelector('.dynamic-content h2');
+    if (pageTitle) {
+        document.title = `${pageTitle.textContent} - LCB ID Translations`;
+    }
+    
+    preloadAllGalleryAssets();
+
     const characterGallery = dynamicContent.querySelector('.character-gallery');
     if (characterGallery) {
-      currentCharacterGallery = dynamicContent.innerHTML;
-      backButtonHandler = returnToMainGallery;
+        currentCharacterGallery = dynamicContent.innerHTML;
+        backButtonHandler = returnToMainGallery;
     }
-  }
+}
+
+window.addEventListener('load', () => {
+    if (window.location.pathname !== '/') { // Adjust this path as needed
+        loadCharacterPage(window.location.pathname);
+    }
+});
 </script>
 </body>
 </html>
