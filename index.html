@@ -226,35 +226,32 @@
 
   let rows = [];
   for (let i = 0; i < translations.length; i++) {
-    // Safely handle missing audio data
-    const audioData = audios[i] || '';
-    const [mainAudio, unusedAudio = ''] = audioData.split(';'); // Default empty string
+    // Safely get audio for this row
+    const rowAudio = audios[i] || '';
     
-    // Process main audio
-    const mainAudioUrls = mainAudio.split(',').filter(Boolean);
-    const mainAudioElements = mainAudioUrls.map(url => 
-      `<audio controls class="audio-stack"><source src="${url.trim()}" type="audio/wav"></audio>`
-    ).join('');
+    // Split into main/unused sections
+    const [mainAudio = '', unusedAudio = ''] = rowAudio.split(';');
+    
+    // Process main audio files
+    const mainAudioElements = mainAudio.split(',')
+      .filter(url => url.trim())
+      .map(url => `<audio controls><source src="${url.trim()}"></audio>`)
+      .join('');
 
-    // Process unused audio only if exists
-    let unusedSection = '';
-    if (unusedAudio.trim()) {
-      const unusedAudioUrls = unusedAudio.split(',').filter(Boolean);
-      if (unusedAudioUrls.length > 0) {
-        const unusedAudioElements = unusedAudioUrls.map(url => 
-          `<audio controls class="audio-stack unused-audio"><source src="${url.trim()}" type="audio/wav"></audio>`
-        ).join('');
-        unusedSection = `<div class="unused-section">UNUSED:${unusedAudioElements}</div>`;
-      }
-    }
-
-    const audioSection = mainAudioElements + unusedSection;
+    // Process unused audio files
+    const unusedAudioElements = unusedAudio.split(',')
+      .filter(url => url.trim())
+      .map(url => `<audio controls class="unused"><source src="${url.trim()}"></audio>`)
+      .join('');
 
     rows.push(`
       <tr>
         <td>${voicelines[i] || '—'}</td>
         <td>${translations[i] || '—'}</td>
-        <td>${audioSection || '—'}</td>
+        <td>
+          ${mainAudioElements}
+          ${unusedAudioElements ? `<div class="unused-section">UNUSED: ${unusedAudioElements}</div>` : ''}
+        </td>
         <td>${notes[i] || '—'}</td>
       </tr>
     `);
