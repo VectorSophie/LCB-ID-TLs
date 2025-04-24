@@ -169,24 +169,26 @@ button,
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 3px;
   text-align: center;
+  position: relative;
   margin: 0 auto -100px;
-  margin-bottom: 30px;
+  margin-bottom: -100px;
   width: 100%;
   padding: 20px;
   background: rgba(0, 0, 0, 0.0);
-  border-radius: 10px;
+  border-radius: 0px;
   max-width: 800px;
   min-width: fit-content; /* Prevent content shrinking */
 }
 
 .detail-header img {
-  margin-bottom: -15px;
+  position: relative; /* Allows manual positioning */
+  top: -95px; /* Move image upward */
+  margin-bottom: -100px; /* Compensate for the upward movement */
   width: 80px; /* Fixed width */
   height: 80px; /* Fixed height */
   object-fit: contain; /* Maintain aspect ratio */
-  border-radius: 50%;
+  border-radius: 0%;
   border: 0px solid white;
   flex-shrink: 0; /* Prevent image from shrinking */
 }
@@ -195,7 +197,7 @@ button,
   font-family: 'Mikodacs', sans-serif;
   font-size: 2em;
   color: white;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
   white-space: nowrap; /* Prevent text wrapping */
   overflow: hidden;
   text-overflow: ellipsis; /* Add ... if text overflows */
