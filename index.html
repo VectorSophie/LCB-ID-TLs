@@ -186,17 +186,32 @@
       }
     });
   });
+  
+  dynamicContent.addEventListener('mouseenter', (e) => {
+  const galleryImg = e.target.closest('.character-gallery img');
+  if (galleryImg) {
+    const hoverSound = hoverSoundTemplate.cloneNode();
+    hoverSound.play().catch(() => {});
+  }
+}, true); // Use capture phase for dynamic content
 
-  dynamicContent.addEventListener('click', function(e) {
-    const galleryImg = e.target.closest('.character-gallery img');
-    const bgLink = e.target.closest('[data-background]');
-    
-    if (bgLink) changeBackground(bgLink.dataset.background);
-    if (galleryImg) {
-      e.preventDefault();
-      showVoicelineDetail(galleryImg);
+  dynamicContent.addEventListener('click', (e) => {
+  const galleryImg = e.target.closest('.character-gallery img');
+  const bgLink = e.target.closest('[data-background]');
+  
+  if (bgLink) changeBackground(bgLink.dataset.background);
+  
+  if (galleryImg) {
+    e.preventDefault();
+    if (canClickPlay) {
+      clickSound.currentTime = 0;
+      clickSound.play().catch(() => {});
+      canClickPlay = false;
+      setTimeout(() => { canClickPlay = true; }, 300);
     }
-  });
+    showVoicelineDetail(galleryImg);
+  }
+});
 
   function showVoicelineDetail(imgElement) {
   const parentLink = imgElement.closest('.character-voice');
