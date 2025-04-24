@@ -183,10 +183,10 @@ button,
 
 .detail-header img {
   position: relative; /* Allows manual positioning */
-  top: -95px; /* Move image upward */
-  margin-bottom: -100px; /* Compensate for the upward movement */
-  width: 80px; /* Fixed width */
-  height: 80px; /* Fixed height */
+  top: -185px; /* Move image upward */
+  margin-bottom: -280px; /* Compensate for the upward movement */
+  width: 250px; /* Fixed width */
+  height: 300px; /* Fixed height */
   object-fit: contain; /* Maintain aspect ratio */
   border-radius: 0%;
   border: 0px solid white;
@@ -209,11 +209,6 @@ button,
 	max-width: 100%;
     gap: 15px;
     padding: 15px;
-  }
-  
-  .detail-header img {
-    width: 60px;
-    height: 60px;
   }
   
   .detail-header h2 {
