@@ -219,6 +219,8 @@ function showVoicelineDetail(imgElement) {
   const parentLink = imgElement.closest('.character-voice');
   
   const pageClass = parentLink.dataset.page || '';
+  const charTitle = parentLink.dataset.characterTitle || "Character Name";
+  const charIcon = parentLink.dataset.characterIcon || "default_icon.png";
   
   // Split data attributes with error handling
   const voicelines = (parentLink.dataset.voiceline || "").split('|').map(v => v.trim());
@@ -247,6 +249,10 @@ function showVoicelineDetail(imgElement) {
 
   const detailHTML = `
     <div class="voiceline-detail ${pageClass}">
+	  <div class="detail-header">
+	   <img src="${charIcon}" alt="${charTitle} Icon">
+	   <h2>${charTitle}</h2>
+	  </div>
       <img src="${imgElement.src}" alt="${imgElement.alt}" class="detail-image">
       <div class="spreadsheet">
         <table>
