@@ -119,21 +119,43 @@
   let currentBg = document.getElementById('current-bg');
   let newBg = document.getElementById('new-bg');
 
-  function preloadAllGalleryAssets() {
-    document.querySelectorAll('.image-gallery a').forEach(link => {
-      const bgLoader = new Image();
-      bgLoader.src = link.dataset.background;
-      const imgLoader = new Image();
-      imgLoader.src = link.querySelector('img').src;
-    });
+async function preloadAllGalleryAssets() {
+  // Preload main gallery images
+  document.querySelectorAll('.image-gallery a, .character-gallery a').forEach(link => {
+    const bgLoader = new Image();
+    bgLoader.src = link.dataset.background;
+    
+    const imgLoader = new Image();
+    imgLoader.src = link.querySelector('img').src;
+  });
+ 
+  const characterPages = [
+    'pages/Yi_Sang.html',
+    'pages/Faust.html',
+    'pages/Don_Quixote.html',
+    // Add all other character page URLs
+  ];
 
-    document.querySelectorAll('.character-voice').forEach(link => {
-      const bgLoader = new Image();
-      bgLoader.src = link.dataset.background;
-      const imgLoader = new Image();
-      imgLoader.src = link.querySelector('img').src;
-    });
+  for (const page of characterPages) {
+    try {
+      const response = await fetch(page);
+      const html = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      
+      // Preload character gallery images
+      doc.querySelectorAll('.character-voice').forEach(link => {
+        const bgLoader = new Image();
+        bgLoader.src = link.dataset.background;
+        
+        const imgLoader = new Image();
+        imgLoader.src = link.querySelector('img').src;
+      });
+    } catch (error) {
+      console.error('Preload failed for:', page, error);
+    }
   }
+}
 
   function preloadCharacterBackgrounds() {
     document.querySelectorAll('[data-background]').forEach(link => {
@@ -141,11 +163,27 @@
       img.src = link.dataset.background;
     });
   }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    preloadCharacterBackgrounds();
-    preloadAllGalleryAssets();
+  
+function preloadCriticalAssets() {
+  // Preload first 3 character images immediately
+  const criticalImages = [
+    'assets/Yi_Sang.png',
+    'assets/Faust.png',
+    'assets/Don_Quixote.png',
+    // Add other critical images
+  ];
+  
+  criticalImages.forEach(src => {
+    const img = new Image();
+    img.src = src;
   });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  preloadCriticalAssets();
+  preloadCharacterBackgrounds();
+  preloadAllGalleryAssets();
+});
 
   async function changeBackground(bgUrl) {
     const currentBg = document.getElementById('current-bg');
