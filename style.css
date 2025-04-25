@@ -576,3 +576,8 @@ body {
     display: block;
   }
 }
+
+.character-gallery img {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px 400px; /* Adjust to your image aspect ratio */
+}
