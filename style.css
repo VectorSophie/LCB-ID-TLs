@@ -217,16 +217,16 @@ button,
   }
 }
 
-.spreadsheet .translation-link {
+.voiceline-detail .translation-link {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 55px;
+  right: -150px; /* Increased for better spacing */
+  z-index: 999;
   color: #ffd700 !important;
   font-family: 'Mikodacs', sans-serif;
   text-decoration: none;
   font-size: 0.9em;
   transition: opacity 0.3s ease;
-  z-index: 1;
 }
 
 .spreadsheet .translation-link:hover {
