@@ -219,8 +219,7 @@ button,
 
 .voiceline-detail .translation-link {
   position: absolute;
-  top: 55px;
-  right: -150px; /* Increased for better spacing */
+  top: 60px;
   z-index: 999;
   color: #ffd700 !important;
   font-family: 'Mikodacs', sans-serif;
