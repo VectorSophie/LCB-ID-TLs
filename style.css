@@ -228,7 +228,7 @@ button,
   transition: opacity 0.3s ease;
 }
 
-.spreadsheet .translation-link:hover {
+.voiceline-detail .translation-link:hover {
   opacity: 0.8;
   text-decoration: underline;
 }
