@@ -217,6 +217,23 @@ button,
   }
 }
 
+.spreadsheet .translation-link {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #ffd700 !important;
+  font-family: 'Mikodacs', sans-serif;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.spreadsheet .translation-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
 /* Spreadsheet Styles */
 .spreadsheet table {
   width: 100%;
