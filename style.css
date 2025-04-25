@@ -235,7 +235,7 @@ button,
 
 @media (orientation: portrait) and (max-width: 600px) {
   .voiceline-detail .translation-link {
-    top: 60px !important;
+    top: 80px !important;
   }
 }
 
