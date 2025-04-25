@@ -233,6 +233,12 @@ button,
   text-decoration: underline;
 }
 
+@media (orientation: portrait) and (max-width: 600px) {
+  .voiceline-detail .translation-link {
+    top: 10px !important; /* Reduced from 20px */
+  }
+}
+
 /* Spreadsheet Styles */
 .spreadsheet table {
   width: 100%;
