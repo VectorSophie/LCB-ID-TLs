@@ -183,7 +183,7 @@ button,
 
 .detail-header img {
   position: relative; /* Allows manual positioning */
-  top: -185px; /* Move image upward */
+  top: -200px; /* Move image upward */
   margin-bottom: -280px; /* Compensate for the upward movement */
   width: 250px; /* Fixed width */
   height: 300px; /* Fixed height */
