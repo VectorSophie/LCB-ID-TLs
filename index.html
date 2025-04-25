@@ -134,7 +134,13 @@ async function preloadAllGalleryAssets() {
     'assets/Faust/LCB_Faust.png',
     'assets/Don_Quixote/LCB_DonQ.png',
 	'assets/Meursault/LCB_Meursault.png',
-    // Add all other background image paths
+	'assets/Hong_Lu/LCB_Hong_Lu.png',
+	'assets/Heathcliff/LCB_Heathcliff.png',
+	'assets/Ishmael/LCB_Ishmael.png',
+	'assets/Rodion/LCB_Rodion.png',
+	'assets/Sinclair/LCB_Sinclair.png',
+	'assets/Outis/LCB_Outis.png',
+	'assets/Gregor/LCB_Gregor.png',
   ];
   
   const characterPages = [
@@ -150,7 +156,6 @@ async function preloadAllGalleryAssets() {
 	'pages/Sinclair.html',
 	'pages/Outis.html',
 	'pages/Gregor.html',
-    // Add all other character page URLs
   ];
   
   backgroundImages.forEach(src => {
@@ -188,7 +193,7 @@ async function preloadAllGalleryAssets() {
   }
   
 function preloadCriticalAssets() {
-  // Preload first 3 character images immediately
+  // Preload character gallery background images immediately
   const criticalImages = [
     'assets/Yi_Sang.png',
     'assets/Faust.png',
