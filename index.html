@@ -128,13 +128,26 @@ async function preloadAllGalleryAssets() {
     const imgLoader = new Image();
     imgLoader.src = link.querySelector('img').src;
   });
- 
+  
+  const backgroundImages = [
+    'assets/Yi_Sang/LCB_YiSang.png',
+    'assets/Faust/LCB_Faust.png',
+    'assets/Don_Quixote/LCB_DonQ.png',
+    // Add all other background image paths
+  ];
+  
   const characterPages = [
     'pages/Yi_Sang.html',
     'pages/Faust.html',
     'pages/Don_Quixote.html',
     // Add all other character page URLs
   ];
+  
+  backgroundImages.forEach(src => {
+    const img = new Image();
+    img.src = src;
+    img.fetchPriority = 'high'; // Chrome-only but helpful
+  });  
 
   for (const page of characterPages) {
     try {
