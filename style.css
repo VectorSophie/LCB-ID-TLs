@@ -618,9 +618,8 @@ body {
 @media (orientation: landscape) {
   .spreadsheet {
     transform: scale(0.85);
-    transform-origin: top left;
-    width: 120vw;
-    padding-right: 20vw;
+    height: 0vw;
+    width: 80vw;
   }
   
   .spreadsheet table {
@@ -638,4 +637,34 @@ body {
     transform: none !important;
     width: 100% !important;
   }
+}
+
+#back-button {
+  /* Replace existing positioning */
+  position: fixed;
+  top: 20px; /* Match image position */
+  left: 20px;
+  height: 70px; /* Match image size */
+  width: 70px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden; /* Contain click area */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#back-button img {
+  pointer-events: none; /* Make image non-clickable */
+}
+
+/* Make the button itself clickable */
+#back-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: url('assets/mouse_on.cur'), pointer;
 }
