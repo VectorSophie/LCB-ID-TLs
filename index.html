@@ -399,6 +399,21 @@ function showVoicelineDetail(imgElement) {
       backButtonHandler = returnToMainGallery;
     }
   }
+  
+  function handleMobileLandscape() {
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+
+  if(isMobile && isLandscape) {
+    document.querySelector('.spreadsheet').style.transform = 'scale(0.85)';
+    window.scrollTo(0, 0);
+  } else {
+    document.querySelector('.spreadsheet').style.transform = 'none';
+  }
+}
+
+window.addEventListener('resize', handleMobileLandscape);
+window.addEventListener('orientationchange', handleMobileLandscape);
 </script>
 </body>
 </html>
