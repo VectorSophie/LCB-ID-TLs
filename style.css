@@ -615,71 +615,27 @@ body {
   contain-intrinsic-size: 300px 400px; /* Adjust to your image aspect ratio */
 }
 
-.bg-container {
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  transform: translateZ(0); /* Hardware acceleration */
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  overflow: hidden;
-}
-
-.body-bg {
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  background-size: cover !important;
-  background-position: center !important;
-  transform: translateZ(0);
-  touch-action: none; /* Disable touch manipulation */
-}
-
-/* Enable scrolling only in content */
-.overlay {
-  touch-action: pan-y !important;
-  -webkit-overflow-scrolling: touch !important;
-}
-
-
 @media (orientation: landscape) {
   .spreadsheet {
-    max-width: 100vw;
-    overflow-x: auto;
-    transform: scale(0.9);
+    transform: scale(0.85);
     transform-origin: top left;
-    padding: 10px 0;
-  }
-
-  .spreadsheet table {
-    min-width: auto !important;
-    width: 100% !important;
-  }
-}
-
-@media (orientation: portrait) {
-  .spreadsheet {
-    transform: none;
-  }
-}
-
-/* Add this to your existing media queries */
-@media (max-width: 600px) and (orientation: landscape) {
-  html, body {
-    overflow-x: hidden;
-    touch-action: pan-y;
+    width: 120vw;
+    padding-right: 20vw;
   }
   
-  .spreadsheet td {
-    font-size: 0.8em !important;
-    padding: 6px 8px !important;
+  .spreadsheet table {
+    min-width: 100% !important;
   }
+  
+  html, body {
+    overflow-x: auto;
+  }
+}
 
-  .spreadsheet th {
-    font-size: 0.85em !important;
+/* Reset for portrait */
+@media (orientation: portrait) {
+  .spreadsheet {
+    transform: none !important;
+    width: 100% !important;
   }
 }
