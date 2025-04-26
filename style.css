@@ -637,7 +637,14 @@ body {
     transform: none !important;
     width: 100% !important;
   }
+}
 
+@media (orientation: portrait) {
+  .spreadsheet {
+    transform: none !important;
+    width: 100% !important;
+  }
+}
 #back-button {
   /* Replace existing positioning */
   position: fixed;
