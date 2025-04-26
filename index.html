@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0"/>
   <title>LCB ID Translations</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <link rel="stylesheet" href="style.css">
@@ -399,6 +399,27 @@ function showVoicelineDetail(imgElement) {
       backButtonHandler = returnToMainGallery;
     }
   }
+  
+// Add to your existing script
+function handleOrientation() {
+  const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+  
+  if(isLandscape) {
+    document.documentElement.style.setProperty('--zoom-level', '0.9');
+    document.querySelector('.spreadsheet').style.transform = 'scale(0.9)';
+    window.scrollTo(0, 0);
+  } else {
+    document.documentElement.style.setProperty('--zoom-level', '1');
+    document.querySelector('.spreadsheet').style.transform = 'none';
+  }
+}
+
+// Run on orientation change and resize
+window.addEventListener('orientationchange', handleOrientation);
+window.addEventListener('resize', handleOrientation);
+
+// Initial check
+handleOrientation();
 </script>
 </body>
 </html>
