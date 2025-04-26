@@ -399,24 +399,6 @@ function showVoicelineDetail(imgElement) {
       backButtonHandler = returnToMainGallery;
     }
   }
-  
-let lastWindowHeight = window.innerHeight;
-
-function lockZoom() {
-  document.body.style.zoom = "1";
-  if (window.innerHeight !== lastWindowHeight) {
-    window.scrollTo(0, 0);
-    lastWindowHeight = window.innerHeight;
-  }
-}
-
-window.addEventListener('resize', lockZoom);
-window.addEventListener('orientationchange', () => {
-  setTimeout(lockZoom, 100);
-});
-
-// Initialize on load
-lockZoom();
 </script>
 </body>
 </html>
