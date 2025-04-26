@@ -615,7 +615,7 @@ body {
   contain-intrinsic-size: 300px 400px; /* Adjust to your image aspect ratio */
 }
 
-@media (orientation: landscape) {
+@media only screen and (orientation: landscape) and (max-width: 768px) {
   .spreadsheet {
     transform: scale(0.85);
     height: 0vw;
@@ -628,14 +628,6 @@ body {
   
   html, body {
     overflow-x: auto;
-  }
-}
-
-/* Reset for portrait */
-@media (orientation: portrait) {
-  .spreadsheet {
-    transform: none !important;
-    width: 100% !important;
   }
 }
 
