@@ -139,7 +139,6 @@ button,
   position: fixed;
   top: 0px;
   left: 20px;
-  bottom: 0px;
   z-index: 9999;
   cursor: url('assets/mouse_on.cur'), pointer;
 }
@@ -527,3 +526,119 @@ body {
   width: 100%;
   box-sizing: border-box;
 }
+
+
+
+
+
+
+ @media (max-width: 1024px) {
+   .image-gallery,
+   .character-gallery {
+     grid-template-columns: repeat(4, 1fr);
+   }
+ }
+ 
+ @media (max-width: 600px) {
+   .image-gallery,
+   .character-gallery {
+     grid-template-columns: repeat(2, 1fr);
+   }
+ }
+ 
+ @media (max-width: 600px) {
+   .overlay {
+     padding: 20px 10px; /* Reduce padding */
+     align-items: stretch; /* Full height alignment */
+   }
+ 
+   .content {
+     padding: 15px;
+     width: 100%;
+   }
+ 
+   .content h1,
+   .content p {
+     position: static; /* Remove sticky on mobile */
+     text-align: center;
+     width: 100%;
+     margin: 0 0 15px 0;
+     padding: 10px;
+   }
+ 
+   .image-gallery,
+   .character-gallery {
+     grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
+     gap: 10px;
+     padding: 0;
+     margin-left: 0; /* Remove left margin */
+   }
+ 
+   /* Ensure full width for gallery items */
+   .image-gallery a,
+   .character-gallery a {
+     width: 100%;
+   }
+ }
+
+ /* Mobile spreadsheet fixes */
+ @media (max-width: 600px) {
+   /* Fix spreadsheet container */
+   .voiceline-detail {
+     grid-template-columns: 1fr;
+     padding: 10px;
+     width: 100vw;
+     margin-left: -10px;
+   }
+ 
+   /* Fix spreadsheet table */
+   .spreadsheet {
+     overflow-x: auto;
+     width: 100%;
+     -webkit-overflow-scrolling: touch;
+   }
+ 
+   .spreadsheet table {
+     min-width: 600px; /* Minimum width for scrollable table */
+   }
+ 
+   /* Fix header positioning */
+   .voiceline-detail h1,
+   .voiceline-detail p {
+     position: static !important;
+     text-align: center;
+     width: 100%;
+     padding: 0 10px;
+   }
+ 
+   /* Adjust back button position */
+   #back-button {
+     left: 10px;
+     top: 10px;
+   }
+ 
+   #back-button img {
+     width: 50px;
+     height: 50px;
+   }
+ 
+   /* Fix dynamic content positioning */
+   #dynamic-content {
+     margin-top: 20px;
+     padding: 10px;
+     width: 100%;
+   }
+ }
+
+
+ @media (orientation: portrait) and (max-width: 600px) {
+   .voiceline-detail .translation-link {
+     top: 40px !important;
+   }
+ }
+
+ @media (orientation: landscape) and (max-width: 800px) {
+   .spreadsheet {
+    width: 100%;
+   }
+ }
