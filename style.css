@@ -233,12 +233,6 @@ button,
   text-decoration: underline;
 }
 
-@media (orientation: portrait) and (max-width: 600px) {
-  .voiceline-detail .translation-link {
-    top: 50px !important;
-  }
-}
-
 /* Spreadsheet Styles */
 .spreadsheet table {
   width: 100%;
@@ -472,120 +466,6 @@ body {
   transition: transform 0.3s ease;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .image-gallery,
-  .character-gallery {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .image-gallery,
-  .character-gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .overlay {
-    padding: 20px 10px; /* Reduce padding */
-    min-height: -webkit-fill-available; /* Better mobile height */
-    align-items: stretch; /* Full height alignment */
-  }
-
-  .content {
-    padding: 15px;
-    width: 100%;
-  }
-
-  .content h1,
-  .content p {
-    position: static; /* Remove sticky on mobile */
-    text-align: center;
-    width: 100%;
-    margin: 0 0 15px 0;
-    padding: 10px;
-  }
-
-  .image-gallery,
-  .character-gallery {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
-    gap: 10px;
-    padding: 0;
-    margin-left: 0; /* Remove left margin */
-  }
-
-  /* Ensure full width for gallery items */
-  .image-gallery a,
-  .character-gallery a {
-    width: 100%;
-  }
-
-  /* Fix viewport height issues */
-  html, body {
-    height: -webkit-fill-available;
-    min-height: 100vh;
-  }
-}
-
-/* Add this for iOS Safari specifically */
-@supports (-webkit-touch-callout: none) {
-  .overlay {
-    min-height: -webkit-fill-available;
-  }
-}
-
-/* Mobile spreadsheet fixes */
-@media (max-width: 600px) {
-  /* Fix spreadsheet container */
-  .voiceline-detail {
-    grid-template-columns: 1fr;
-    padding: 10px;
-    width: 100vw;
-    margin-left: -10px;
-  }
-
-  /* Fix spreadsheet table */
-  .spreadsheet {
-    overflow-x: auto;
-    width: 100%;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .spreadsheet table {
-    min-width: 600px; /* Minimum width for scrollable table */
-  }
-
-  /* Fix header positioning */
-  .voiceline-detail h1,
-  .voiceline-detail p {
-    position: static !important;
-    text-align: center;
-    width: 100%;
-    padding: 0 10px;
-  }
-
-  /* Adjust back button position */
-  #back-button {
-    left: 10px;
-    top: 10px;
-  }
-
-  #back-button img {
-    width: 50px;
-    height: 50px;
-  }
-
-  /* Fix dynamic content positioning */
-  #dynamic-content {
-    margin-top: 20px;
-    padding: 10px;
-    width: 100%;
-  }
-}
-
-
 /* Add these styles to your CSS */
 .overlay {
   position: fixed; /* Changed from default */
@@ -599,66 +479,12 @@ body {
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
-/* Mobile-specific fixes */
-@media (max-width: 600px) {
-  .spreadsheet {
-    width: 100vw;
-    margin-left: -20px;
-    padding: 10px;
-  }
-
-  .spreadsheet table {
-    min-width: 100% !important; /* Force table to parent width */
-    font-size: 0.8em; /* Smaller text */
-  }
-
-  .spreadsheet td, 
-  .spreadsheet th {
-    padding: 8px 10px; /* Reduce padding */
-  }
-
-  /* Force horizontal scrolling for wide tables */
-  .spreadsheet {
-    overflow-x: auto;
-    display: block;
-  }
-}
-
 .character-gallery img {
   content-visibility: auto;
   contain-intrinsic-size: 300px 400px; /* Adjust to your image aspect ratio */
 }
 
-@media only screen and (orientation: landscape) and (max-width: 768px) {
-  .spreadsheet {
-    transform: scale(0.85);
-    height: 0vw;
-    width: 80vw;
-  }
-  
-  .spreadsheet table {
-    min-width: 100% !important;
-  }
-  
-  html, body {
-    overflow-x: auto;
-  }
-}
 
-/* Reset for desktop landscape */
-@media (orientation: landscape) and (min-width: 769px) {
-  .spreadsheet {
-    transform: none !important;
-    width: 100% !important;
-  }
-}
-
-@media (orientation: portrait) {
-  .spreadsheet {
-    transform: none !important;
-    width: 100% !important;
-  }
-}
 #back-button {
   /* Replace existing positioning */
   position: fixed;
@@ -708,22 +534,4 @@ html, body {
 
 #dynamic-content {
   overflow-anchor: none; /* Prevent scroll jumping */
-}
-
-
-@media (orientation: landscape) and (max-width: 768px) {
-  .spreadsheet {
-    zoom: 0.85;
-    width: 100%;
-    max-width: 100vw;
-  }
-  
-  .voiceline-detail {
-    padding: 10px !important;
-  }
-  
-  #back-button {
-    top: 5px;
-    left: 5px;
-  }
 }
