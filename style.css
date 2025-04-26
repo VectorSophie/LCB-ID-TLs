@@ -674,3 +674,46 @@ body {
   height: 100%;
   cursor: url('assets/mouse_on.cur'), pointer;
 }
+
+.overlay {
+  position: absolute !important; /* Change from fixed */
+  height: -webkit-fill-available;
+  min-height: 100vh;
+}
+
+.content {
+  min-height: 100vh;
+  height: auto;
+}
+
+html, body {
+  overflow: hidden;
+  overflow-y: auto !important; /* Enable natural scrolling */
+  height: auto !important;
+}
+
+#dynamic-content {
+  overflow-anchor: none; /* Prevent scroll jumping */
+}
+
+
+@media (orientation: landscape) {
+  .body-bg {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    transform: translateZ(0);
+    will-change: transform;
+    background-attachment: fixed !important;
+  }
+  
+  .bg-container {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+  
+  .overlay {
+    position: relative;
+    -webkit-overflow-scrolling: auto;
+  }
+}

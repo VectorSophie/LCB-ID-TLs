@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>LCB ID Translations</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <link rel="stylesheet" href="style.css">
@@ -411,6 +411,17 @@ function showVoicelineDetail(imgElement) {
     document.querySelector('.spreadsheet').style.transform = 'none';
   }
 }
+
+ function fixMobileScroll() {
+  if(window.innerHeight === document.documentElement.clientHeight) {
+    window.scrollTo(0, 1);
+  }
+}
+
+// Run on load and resize
+window.addEventListener('load', fixMobileScroll);
+window.addEventListener('resize', fixMobileScroll);
+window.addEventListener('orientationchange', fixMobileScroll);
 
 window.addEventListener('resize', handleMobileLandscape);
 window.addEventListener('orientationchange', handleMobileLandscape);
