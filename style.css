@@ -527,9 +527,28 @@ body {
   box-sizing: border-box;
 }
 
+#back-button {
+  overflow: visible !important; /* Allow hover overflow */
+  transform-origin: left center; /* Keep scaling contained */
+}
+
+#back-button:hover img {
+  transform: scale(1.05); /* Reduced scale for safety */
+  filter: drop-shadow(0 0 5px rgb(255 220 0 / 50%)); /* Add glow instead */
+}
+
+#back-button img {
+  transition: all 0.2s ease;
+  margin-right: 10px; /* Add breathing room */
+}
 
 
 
+
+
+
+
+ /* MOBILE FIX HELL HERE */
 
 
  @media (max-width: 1024px) {
