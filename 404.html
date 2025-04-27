@@ -1,4 +1,18 @@
-<script>
-  sessionStorage.redirect = location.href;
-  location.replace('https://notherwael.github.io/LCB-ID-TLs/');
-</script>
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    const redirect = () => {
+      const path = window.location.pathname;
+      if (path.startsWith('/pages/')) {
+        window.history.replaceState({}, '', '/');
+        window.location.href = '/#' + path;
+      } else {
+        window.location.href = '/';
+      }
+    };
+    redirect();
+  </script>
+</head>
+<body></body>
+</html>
