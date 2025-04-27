@@ -1,3 +1,4 @@
 Add Season Tags
 Add Switch Art
 Add Spoiler Warnings
+Add Mobile Support
