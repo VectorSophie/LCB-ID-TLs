@@ -110,11 +110,34 @@
   // Main gallery hover sounds
   galleryLinks.forEach(link => {
     const img = link.querySelector('img');
-    img.addEventListener('mouseenter', () => {
+    img.addEventListener('click', (e) => {
+	  e.preventDefault();
+	  const characterPath = link.getAttribute('href');
+	  history.pushState({ character: characterPath }, '', characterPath);
       const hoverSound = hoverSoundTemplate.cloneNode();
       hoverSound.play().catch(() => {});
     });
   });
+window.addEventListener('popstate', (event) => {
+  if (event.state?.character) {
+    loadCharacterContent(event.state.character);
+  } else {
+    returnToMainGallery();
+  }
+});
+
+async function loadCharacterContent(path) {
+  try {
+    const response = await fetch(path);
+    const html = await response.text();
+    showContent(html);
+    const bgImage = document.querySelector(`.image-gallery a[href="${path}"]`)?.dataset.background;
+    if (bgImage) changeBackground(bgImage);
+  } catch (error) {
+    console.error('Error loading character:', error);
+    returnToMainGallery();
+  }
+}
 
   let currentBg = document.getElementById('current-bg');
   let newBg = document.getElementById('new-bg');
@@ -219,6 +242,10 @@ document.addEventListener('DOMContentLoaded', () => {
   preloadCriticalAssets();
   preloadCharacterBackgrounds();
   preloadAllGalleryAssets();
+  const initialPath = window.location.pathname.replace(/.*\//, '/pages/');
+  if (initialPath.startsWith('/pages/')) {
+    loadCharacterContent(initialPath);
+  }
 });
 
   async function changeBackground(bgUrl) {
