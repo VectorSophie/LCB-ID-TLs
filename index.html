@@ -37,40 +37,40 @@
 
     <!-- Main Image Gallery -->
     <div class="image-gallery">
-      <a href="Yi_Sang.html" data-background="assets/Yi_Sang/LCB_YiSang.png">
+      <a href="pages/Yi_Sang.html" data-background="assets/Yi_Sang/LCB_YiSang.png">
         <img src="assets/Yi_Sang.png" alt="Yi Sang">
       </a>
-      <a href="Faust.html" data-background="assets/Faust/LCB_Faust.png">
+      <a href="pages/Faust.html" data-background="assets/Faust/LCB_Faust.png">
         <img src="assets/Faust.png" alt="Faust">
       </a>
-      <a href="Don_Quixote.html" data-background="assets/Don_Quixote/LCB_DonQ.png">
+      <a href="pages/Don_Quixote.html" data-background="assets/Don_Quixote/LCB_DonQ.png">
         <img src="assets/Don_Quixote.png" alt="Don Quixote">
       </a>
-      <a href="Ryōshū.html" data-background="assets/Ryōshū/LCB_Ryōshū.png">
+      <a href="pages/Ryōshū.html" data-background="assets/Ryōshū/LCB_Ryōshū.png">
         <img src="assets/Ryōshū.png" alt="Ryōshū">
       </a>
-      <a href="Meursault.html" data-background="assets/Meursault/LCB_Meursault.png">
+      <a href="pages/Meursault.html" data-background="assets/Meursault/LCB_Meursault.png">
         <img src="assets/Meursault.png" alt="Meursault">
       </a>
-      <a href="Hong_Lu.html" data-background="assets/Hong_Lu/LCB_Hong_Lu.png">
+      <a href="pages/Hong_Lu.html" data-background="assets/Hong_Lu/LCB_Hong_Lu.png">
         <img src="assets/Hong_Lu.png" alt="Hong Lu">
       </a>
-      <a href="Heathcliff.html" data-background="assets/Heathcliff/LCB_Heathcliff.png">
+      <a href="pages/Heathcliff.html" data-background="assets/Heathcliff/LCB_Heathcliff.png">
         <img src="assets/Heathcliff.png" alt="Heathcliff">
       </a>
-      <a href="Ishmael.html" data-background="assets/Ishmael/LCB_Ishmael.png">
+      <a href="pages/Ishmael.html" data-background="assets/Ishmael/LCB_Ishmael.png">
         <img src="assets/Ishmael.png" alt="Ishmael">
       </a>
-      <a href="Rodion.html" data-background="assets/Rodion/LCB_Rodion.png">
+      <a href="pages/Rodion.html" data-background="assets/Rodion/LCB_Rodion.png">
         <img src="assets/Rodion.png" alt="Rodion">
       </a>
-      <a href="Sinclair.html" data-background="assets/Sinclair/LCB_Sinclair.png">
+      <a href="pages/Sinclair.html" data-background="assets/Sinclair/LCB_Sinclair.png">
         <img src="assets/Sinclair.png" alt="Sinclair">
       </a>
-      <a href="Outis.html" data-background="assets/Outis/LCB_Outis.png">
+      <a href="pages/Outis.html" data-background="assets/Outis/LCB_Outis.png">
         <img src="assets/Outis.png" alt="Outis">
       </a>
-      <a href="Gregor.html" data-background="assets/Gregor/LCB_Gregor.png">
+      <a href="pages/Gregor.html" data-background="assets/Gregor/LCB_Gregor.png">
         <img src="assets/Gregor.png" alt="Gregor">
       </a>
     </div>
@@ -85,10 +85,6 @@
 <audio src="assets/UI_Click.wav" preload="auto" style="display:none;"></audio>
 
 <script>
-if (!window.location.pathname.includes('/LCB-ID-TLs/')) {
-  history.replaceState({}, '', '/LCB-ID-TLs/');
-}
-
   const hoverSoundTemplate = new Audio('assets/UI_Hover.wav');
   hoverSoundTemplate.volume = 0.7;
   const clickSound = new Audio('assets/UI_Click.wav');
@@ -113,39 +109,12 @@ if (!window.location.pathname.includes('/LCB-ID-TLs/')) {
 
   // Main gallery hover sounds
   galleryLinks.forEach(link => {
-  const img = link.querySelector('img');
-  img.addEventListener('click', (e) => {
-    e.preventDefault();
-    const characterPath = `pages/${link.getAttribute('href')}`;
-    history.pushState({ character: characterPath }, '', characterPath);
+    const img = link.querySelector('img');
+    img.addEventListener('mouseenter', () => {
       const hoverSound = hoverSoundTemplate.cloneNode();
       hoverSound.play().catch(() => {});
     });
   });
-  
-window.addEventListener('popstate', (event) => {
-  const path = window.location.pathname;
-  if (path.includes('/pages/')) {
-    loadCharacterContent(path.split('/').pop());
-  } else {
-    history.replaceState({}, '', '/LCB-ID-TLs/');
-    returnToMainGallery();
-  }
-});
-
-async function loadCharacterContent(filename) {
-  const path = `pages/${filename}`;
-  try {
-    const response = await fetch(path);
-    const html = await response.text();
-    showContent(html);
-    const bgImage = document.querySelector(`.image-gallery a[href="${path}"]`)?.dataset.background;
-    if (bgImage) changeBackground(bgImage);
-  } catch (error) {
-    console.error('Error loading character:', error);
-    returnToMainGallery();
-  }
-}
 
   let currentBg = document.getElementById('current-bg');
   let newBg = document.getElementById('new-bg');
@@ -250,10 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
   preloadCriticalAssets();
   preloadCharacterBackgrounds();
   preloadAllGalleryAssets();
-  const initialPath = window.location.pathname.replace(/.*\//, '/pages/');
-  if (initialPath.startsWith('/pages/')) {
-    loadCharacterContent(initialPath);
-  }
 });
 
   async function changeBackground(bgUrl) {
@@ -262,41 +227,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   galleryLinks.forEach(link => {
-  const img = link.querySelector('img');
-  img.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (canClickPlay) {
-      clickSound.currentTime = 0;
-      clickSound.play().catch(() => {});
-      canClickPlay = false;
-      setTimeout(() => { canClickPlay = true; }, 300);
-    }
+    const img = link.querySelector('img');
+    img.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (canClickPlay) {
+        clickSound.currentTime = 0;
+        clickSound.play().catch(() => {});
+        canClickPlay = false;
+        setTimeout(() => { canClickPlay = true; }, 300);
+      }
 
-    const targetUrl = new URL(link.href).pathname; // Get clean path
-    history.pushState({ character: targetUrl }, '', targetUrl);
-    
-    if (cache.has(targetUrl)) {
-      showContent(cache.get(targetUrl));
-    } else {
-      fetch(targetUrl)
-        .then(response => response.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, 'text/html');
-          const content = doc.body.innerHTML;
-          cache.set(targetUrl, content);
-          showContent(content);
-          const bgImage = link.dataset.background;
-          if (bgImage) changeBackground(bgImage);
-        })
-        .catch(err => {
-          console.error('Error loading content:', err);
-          history.replaceState({}, '', '/');
-          returnToMainGallery();
-        });
-    }
+      const bgImage = link.dataset.background;
+      if (bgImage) changeBackground(bgImage);
+
+      const targetUrl = link.getAttribute('href');
+      if (cache.has(targetUrl)) {
+        showContent(cache.get(targetUrl));
+      } else {
+        fetch(targetUrl)
+          .then(response => response.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const content = doc.body.innerHTML;
+            cache.set(targetUrl, content);
+            showContent(content);
+          })
+          .catch(err => {
+            dynamicContent.innerHTML = "<p>Error loading content.</p>";
+            console.error(err);
+          });
+      }
+    });
   });
-});
   
   dynamicContent.addEventListener('mouseenter', (e) => {
   const galleryImg = e.target.closest('.character-gallery img');
@@ -410,11 +373,10 @@ function showVoicelineDetail(imgElement) {
   }
 
   function returnToMainGallery() {
-    history.replaceState({}, '', '/LCB-ID-TLs/');
     dynamicContent.innerHTML = '';
     dynamicContent.classList.remove('visible');
     gallery.style.display = 'grid';
-	dynamicContent.innerHTML = '';
+    backButton.style.display = 'none';
     document.getElementById('current-bg').style.backgroundImage = "url('assets/background.png')";
   }
 
@@ -425,17 +387,18 @@ function showVoicelineDetail(imgElement) {
   });
 
   function showContent(html) {
-  gallery.style.display = 'none';
-  dynamicContent.innerHTML = html;
-  dynamicContent.classList.add('visible');
-  backButton.style.display = 'block';
-  preloadAllGalleryAssets();
-  
-  // Fix nested pages links
-  document.querySelectorAll('.character-gallery a').forEach(link => {
-    link.href = link.href.replace(/\/pages\/pages\//g, '/pages/');
-  });
-}
+    gallery.style.display = 'none';
+    dynamicContent.innerHTML = html;
+    dynamicContent.classList.add('visible');
+    backButton.style.display = 'block';
+    preloadAllGalleryAssets();
+    
+    const characterGallery = dynamicContent.querySelector('.character-gallery');
+    if (characterGallery) {
+      currentCharacterGallery = dynamicContent.innerHTML;
+      backButtonHandler = returnToMainGallery;
+    }
+  }
 </script>
 </body>
 </html>
