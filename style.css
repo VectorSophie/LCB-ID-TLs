@@ -232,6 +232,11 @@ button,
   text-decoration: underline;
 }
 
+.spreadsheet td span {
+  display: inline;
+  background: transparent !important;
+}
+
 /* Spreadsheet Styles */
 .spreadsheet table {
   width: 100%;
