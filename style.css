@@ -370,6 +370,20 @@ button,
   line-height: 1.5;
 }
 
+.voiceline-detail.Ishmael-page .spreadsheet td:nth-child(2) {
+  font-family: 'Pretendard', sans-serif;
+  color: #ff9500 !important;
+  font-weight: 500;
+  letter-spacing: normal;
+  min-width: 440px; 
+  max-width: 600px; 
+  width: 30%; 
+  white-space: normal;
+  word-break: break-word;
+  padding: 8px 12px;
+  line-height: 1.5;
+}
+
 .spreadsheet td:nth-child(4) {
   letter-spacing: normal; /* Added to fix spacing */
   min-width: 300px; /* Adjust this value as needed */
