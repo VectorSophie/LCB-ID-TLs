@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LCB ID Translations</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <link rel="stylesheet" href="style.css">
-  <link rel="preload" href="style.css" as="style" crossorigin>
-  <link rel="preload" href="assets/background.png" as="image" fetchpriority="high">
   <link rel="preload" href="assets/mouse_on.cur" as="image">
   <link rel="preload" href="assets/UI_Hover.wav" as="audio">
   <link rel="preload" href="assets/UI_Click.wav" as="audio">
+  <link rel="preload" href="assets/background.png" as="image">
+  <link rel="preload" href="assets/Yi_Sang/LCB_YiSang.png" as="image">
+  <link rel="preload" href="assets/Faust/LCB_Faust.png" as="image">
+  <link rel="preload" href="assets/Don_Quixote/LCB_DonQ.png" as="image">
+  <link rel="preload" href="pages/Yi_Sang.html" as="document">
+  <link rel="preload" href="pages/Faust.html" as="document">
+  <link rel="preload" href="pages/Don_Quixote.html" as="document">
+  <link rel="preload" href="pages/Ryōshū.html" as="document">
+  <link rel="preload" href="pages/Meursault.html" as="document">
+  <link rel="preload" href="pages/Hong_Lu.html" as="document">
+  <link rel="preload" href="pages/Heathcliff.html" as="document">
+  <link rel="preload" href="pages/Ishmael.html" as="document">
+  <link rel="preload" href="pages/Rodion.html" as="document">
+  <link rel="preload" href="pages/Sinclair.html" as="document">
+  <link rel="preload" href="pages/Outis.html" as="document">
+  <link rel="preload" href="pages/Gregor.html" as="document">  
+  
 </head>
 <body>
 
@@ -108,11 +123,25 @@
   // Main gallery hover sounds
   galleryLinks.forEach(link => {
     const img = link.querySelector('img');
-    img.addEventListener('mouseenter', () => {
+  img.addEventListener('click', (e) => {
+    e.preventDefault();
       const hoverSound = hoverSoundTemplate.cloneNode();
       hoverSound.play().catch(() => {});
-    });
+	  const targetUrl = link.getAttribute('href');
+    if (cache.has(targetUrl)) {
+      showContent(cache.get(targetUrl));
+    } else {
+      // Fallback for browsers that don't support preload
+      fetch(targetUrl)
+        .then(response => response.text())
+        .then(html => {
+          showContent(html);
+          cache.set(targetUrl, html);
+        })
+        .catch(console.error);
+    }
   });
+});
 
   let currentBg = document.getElementById('current-bg');
   let newBg = document.getElementById('new-bg');
@@ -156,31 +185,24 @@ async function preloadAllGalleryAssets() {
 	'pages/Gregor.html',
   ];
   
-  backgroundImages.forEach(src => {
-    const img = new Image();
-    img.src = src;
-    img.fetchPriority = 'high'; // Chrome-only but helpful
-  });  
-
-  for (const page of characterPages) {
+  await Promise.all(characterPages.map(async (page) => {
     try {
       const response = await fetch(page);
       const html = await response.text();
+      cache.set(page, html); // Store HTML in cache
+      
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
       
-      // Preload character gallery images
+      // Preload images from character pages
       doc.querySelectorAll('.character-voice').forEach(link => {
-        const bgLoader = new Image();
-        bgLoader.src = link.dataset.background;
-        
-        const imgLoader = new Image();
-        imgLoader.src = link.querySelector('img').src;
+        new Image().src = link.dataset.background;
+        new Image().src = link.querySelector('img').src;
       });
     } catch (error) {
       console.error('Preload failed for:', page, error);
     }
-  }
+  }));
 }
 
   function preloadCharacterBackgrounds() {
@@ -209,37 +231,13 @@ function preloadCriticalAssets() {
   
   criticalImages.forEach(src => {
     const img = new Image();
-    img.src = src + '?v=' + Date.now(); // Cache busting
-    img.loading = 'eager';
+    img.src = src;
   });
 }
 
-async function preloadAllGalleryAssets() {
-  const controller = new AbortController();
-  const { signal } = controller;
-  
-  try {
-    await Promise.all(characterPages.map(async page => {
-      const cached = sessionStorage.getItem(page);
-      if (!cached) {
-        const response = await fetch(page, { signal });
-        const html = await response.text();
-        sessionStorage.setItem(page, html);
-      }
-    }));
-  } catch (err) {
-    if (err.name !== 'AbortError') console.error(err);
-  }
-  
-  return () => controller.abort();
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  if (!sessionStorage.getItem('initialLoad')) {
-    sessionStorage.setItem('initialLoad', 'true');
-    preloadCriticalAssets();
-    preloadCharacterBackgrounds();
-  }
+  preloadCriticalAssets();
+  preloadCharacterBackgrounds();
   preloadAllGalleryAssets();
 });
 
