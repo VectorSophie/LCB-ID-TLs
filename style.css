@@ -32,6 +32,16 @@ body {
   overflow-x: hidden;
 }
 
+body {
+  contain: strict;
+  content-visibility: auto;
+}
+
+.image-gallery {
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px;
+}
+
 body::before {
   content: none;
 }
