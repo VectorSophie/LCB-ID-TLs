@@ -194,6 +194,7 @@ button,
 
 .detail-header h2 {
   font-family: 'Mikodacs', sans-serif;
+  z-index: 998;
   font-size: 2em;
   color: white;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
