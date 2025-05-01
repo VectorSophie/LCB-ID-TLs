@@ -132,24 +132,49 @@
   });
 
   // Main gallery hover sounds
-  galleryLinks.forEach(link => {
-    const img = link.querySelector('img');
+galleryLinks.forEach(link => {
+  const img = link.querySelector('img');
+  
+  // Hover sound handler
+  img.addEventListener('mouseenter', () => {
+    const hoverSound = hoverSoundTemplate.cloneNode();
+    hoverSound.play().catch(() => {});
+  });
+
+  // Click handler
   img.addEventListener('click', (e) => {
     e.preventDefault();
-      const hoverSound = hoverSoundTemplate.cloneNode();
-      hoverSound.play().catch(() => {});
-	  const targetUrl = link.getAttribute('href');
+    
+    // Play click sound
+    if (canClickPlay) {
+      clickSound.currentTime = 0;
+      clickSound.play().catch(() => {});
+      canClickPlay = false;
+      setTimeout(() => { canClickPlay = true; }, 300);
+    }
+
+    // Change background
+    const bgImage = link.dataset.background;
+    if (bgImage) changeBackground(bgImage);
+
+    // Handle content loading
+    const targetUrl = link.getAttribute('href');
     if (cache.has(targetUrl)) {
       showContent(cache.get(targetUrl));
     } else {
-      // Fallback for browsers that don't support preload
       fetch(targetUrl)
         .then(response => response.text())
         .then(html => {
-          showContent(html);
-          cache.set(targetUrl, html);
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const content = doc.body.innerHTML;
+          cache.set(targetUrl, content);
+          showContent(content);
         })
-        .catch(console.error);
+        .catch(err => {
+          dynamicContent.innerHTML = "<p>Error loading content.</p>";
+          console.error(err);
+        });
     }
   });
 });
