@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-   <meta http-equiv="refresh" content="0; url=https://notherwael.github.io/LCB-ID-TLs/">
   <title>LCB ID Translations</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <link rel="stylesheet" href="style.css">
@@ -110,31 +109,6 @@
 <audio src="assets/UI_Click.wav" preload="auto" style="display:none;"></audio>
 
 <script>
-window.addEventListener('DOMContentLoaded', () => {
-  const currentPath = window.location.pathname;
-  
-  // If user directly navigated to a character page
-  if (currentPath.includes('/pages/')) {
-    const character = currentPath.split('/').pop().replace('.html', '');
-    window.history.replaceState(null, null, '/LCB-ID-TLs/');
-    loadCharacterImmediately(character);
-  }
-});
-
-async function loadCharacterImmediately(characterName) {
-  const targetUrl = `pages/${characterName}.html`;
-  
-  try {
-    const response = await fetch(targetUrl);
-    const html = await response.text();
-    cache.set(targetUrl, html);
-    showContent(html);
-    document.querySelector('.image-gallery').style.display = 'none';
-  } catch (error) {
-    console.error('Failed to load initial character:', error);
-  }
-}
-
   const hoverSoundTemplate = new Audio('assets/UI_Hover.wav');
   hoverSoundTemplate.volume = 0.7;
   const clickSound = new Audio('assets/UI_Click.wav');
@@ -298,7 +272,6 @@ function preloadCriticalAssets() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.documentElement.classList.add('loaded');
   preloadCriticalAssets();
   preloadCharacterBackgrounds();
   preloadAllGalleryAssets();
