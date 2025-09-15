@@ -456,5 +456,62 @@ function showVoicelineDetail(imgElement) {
     }
   }
 </script>
+<!-- Background Music -->
+<audio id="bg-music" autoplay loop hidden>
+  <source src="assets/Main Menu Theme.wav" type="audio/mpeg">
+</audio>
+
+<!-- Music Toggle Button -->
+<button id="music-toggle">
+  <img src="assets/music_on.png" alt="Music On" />
+</button>
+
+<script>
+  const bgMusic = document.getElementById('bg-music');
+  const musicToggle = document.getElementById('music-toggle');
+
+  // default volume
+  bgMusic.volume = 0.4;
+
+  // If autoplay is blocked, start after first click
+  document.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      bgMusic.play().catch(err => console.warn("Music autoplay blocked:", err));
+    }
+  }, { once: true });
+
+  // Toggle button logic
+  let musicOn = true;
+  musicToggle.addEventListener('click', () => {
+    if (musicOn) {
+      bgMusic.pause();
+      musicToggle.querySelector('img').src = "assets/music_off.png";
+      musicToggle.querySelector('img').alt = "Music Off";
+    } else {
+      bgMusic.play().catch(() => {});
+      musicToggle.querySelector('img').src = "assets/music_on.png";
+      musicToggle.querySelector('img').alt = "Music On";
+    }
+    musicOn = !musicOn;
+  });
+</script>
+
+<style>
+  #music-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2000;
+  }
+
+  #music-toggle img {
+    width: 40px;
+    height: 40px;
+  }
+</style>
+
 </body>
 </html>
