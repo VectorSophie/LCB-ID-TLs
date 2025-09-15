@@ -753,6 +753,7 @@ body {
   position: absolute;
   top: 8px;
   left: 8px;
+  background-color: black; /* always black background */
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.75rem;
@@ -761,17 +762,10 @@ body {
   pointer-events: none;
   font-family: 'Mikodacs', sans-serif;
   letter-spacing: 0.05em;
-
-  /* text and background both get set by season class */
-  color: inherit;
-  background-color: currentColor;
-
-  /* keep it readable with stroke or shadow */
-  -webkit-text-stroke: 1px #000; /* thin black outline */
-  text-shadow: 0 0 3px rgba(0,0,0,0.6);
+  text-shadow: 0 0 5px rgba(0,0,0,0.7);
 }
 
-/* season classes define the shared color */
+/* season classes now only set text color */
 .season-1 { color: #cf0000; } 
 .season-2 { color: #d4e1e8; } 
 .season-3 { color: #ff9500; } 
