@@ -737,9 +737,39 @@ body {
      top: 40px !important;
    }
  }
-
+ 
  @media (orientation: landscape) and (max-width: 800px) {
    .spreadsheet {
     width: 100%;
    }
  }
+
+.character-gallery a {
+  position: relative;
+  display: block;
+}
+
+.season-tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 1;
+  pointer-events: none;
+  font-family: 'Mikodacs', sans-serif;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 5px rgba(0,0,0,0.7);
+}
+
+.season-1 { background-color: #cf0000; } 
+.season-2 { background-color: #d4e1e8; } 
+.season-3 { background-color: #ff9500; } 
+.season-4 { background-color: #a867ff; }
+.season-5 { background-color: #ffef23; } 
+.season-6 { background-color: #5bffde; }
+.walpurgisnight { background-color: #dcff1b; } 
