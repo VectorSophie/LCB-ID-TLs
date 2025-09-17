@@ -1,4 +1,7 @@
 name: Update Last Commit Date
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -11,15 +14,30 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Get latest commit date
+      - name: Get latest commit date with ordinal
         id: commit_date
         run: |
-          echo "LAST_COMMIT_DATE=$(git log -1 --format=%cd --date=format:'%b %d, %Y')" >> $GITHUB_ENV
+          DAY=$(git log -1 --format=%d)
+          MONTH=$(git log -1 --format=%b)
+          YEAR=$(git log -1 --format=%Y)
 
-      - name: Replace only the date
+          # Add ordinal suffix
+          if [[ "$DAY" == 1 || "$DAY" == 21 || "$DAY" == 31 ]]; then
+            SUFFIX="st"
+          elif [[ "$DAY" == 2 || "$DAY" == 22 ]]; then
+            SUFFIX="nd"
+          elif [[ "$DAY" == 3 || "$DAY" == 23 ]]; then
+            SUFFIX="rd"
+          else
+            SUFFIX="th"
+          fi
+
+          LAST_COMMIT_DATE="$MONTH $DAY$SUFFIX, $YEAR"
+          echo "LAST_COMMIT_DATE=$LAST_COMMIT_DATE" >> $GITHUB_ENV
+
+      - name: Replace only the date in last-updated
         run: |
-          # This keeps all text, only swaps out the date after "Updated"
-          sed -i "s/\(Updated \)[A-Za-z0-9, ]*/\1$LAST_COMMIT_DATE/" index.html
+          sed -i "s/\(<p id=\"last-updated\">Updated \)[A-Za-z0-9, ]*/\1$LAST_COMMIT_DATE/" index.html
 
       - name: Commit updated index.html
         run: |
