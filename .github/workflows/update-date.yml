@@ -17,9 +17,13 @@ jobs:
       - name: Get latest commit date with ordinal
         id: commit_date
         run: |
-          DAY=$(git log -1 --format=%d)
-          MONTH=$(git log -1 --format=%b)
-          YEAR=$(git log -1 --format=%Y)
+          # Get day, month, year from latest commit
+          DAY=$(date -d "$(git log -1 --format=%cd)" +%d)
+          MONTH=$(date -d "$(git log -1 --format=%cd)" +%b)
+          YEAR=$(date -d "$(git log -1 --format=%cd)" +%Y)
+
+          # Remove leading zero from day
+          DAY=${DAY#0}
 
           # Add ordinal suffix
           if [[ "$DAY" == 1 || "$DAY" == 21 || "$DAY" == 31 ]]; then
@@ -37,7 +41,7 @@ jobs:
 
       - name: Replace only the date in last-updated
         run: |
-          # Escape special characters in the date for sed
+          # Escape special characters for sed
           ESCAPED_DATE=$(printf '%s\n' "$LAST_COMMIT_DATE" | sed 's/[\/&]/\\&/g')
           sed -i "s|\(<p id=\"last-updated\">Updated \)[A-Za-z0-9, ]*|\1$ESCAPED_DATE|" index.html
 
