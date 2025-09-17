@@ -37,7 +37,9 @@ jobs:
 
       - name: Replace only the date in last-updated
         run: |
-          sed -i "s/\(<p id=\"last-updated\">Updated \)[A-Za-z0-9, ]*/\1$LAST_COMMIT_DATE/" index.html
+          # Escape special characters in the date for sed
+          ESCAPED_DATE=$(printf '%s\n' "$LAST_COMMIT_DATE" | sed 's/[\/&]/\\&/g')
+          sed -i "s|\(<p id=\"last-updated\">Updated \)[A-Za-z0-9, ]*|\1$ESCAPED_DATE|" index.html
 
       - name: Commit updated index.html
         run: |
