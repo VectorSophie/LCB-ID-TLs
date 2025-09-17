@@ -749,17 +749,21 @@ body {
   display: block;
 }
 
-.season-tag {
+
+.season-tags {
   position: absolute;
   top: 8px;
   left: 8px;
-  background-color: black; /* always black background */
+  display: flex;       
+  gap: 6px;            
+}
+
+.season-tag {
+  background-color: black;
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 600;
-  z-index: 1;
-  pointer-events: none;
   font-family: 'Mikodacs', sans-serif;
   letter-spacing: 0.05em;
   text-shadow: 0 0 5px rgba(0,0,0,0.7);
