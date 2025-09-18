@@ -112,7 +112,14 @@ button,
 }
 
 /* Gallery Styles */
-.image-gallery,
+.image-gallery{
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+}
+
 .character-gallery {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -668,10 +675,16 @@ body {
      padding: 10px;
    }
  
-   .image-gallery,
+   .image-gallery {
+     grid-template-columns: repeat(2, 1fr);
+     gap: 20;
+     padding: 0;
+     margin-left: 0;
+   }
+   
    .character-gallery {
      grid-template-columns: repeat(2, 1fr);
-     column-gap: 20px;
+     column-gap: 30px;
      row-gap: 40px;
      padding: 0;
      margin-left: 0;
