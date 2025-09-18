@@ -1,6 +1,6 @@
 name: Update Last Commit Date
 permissions:
-  contents: write
+  contents: write  # allows workflow to push changes
 
 on:
   push:
@@ -43,8 +43,10 @@ jobs:
 
       - name: Replace only the date in last-updated
         run: |
+          # Escape special characters for sed
           ESCAPED_DATE=$(printf '%s\n' "$LAST_COMMIT_DATE" | sed 's/[\/&]/\\&/g')
-          sed -i "s|\(<p id=\"last-updated\">Updated \)[A-Za-z0-9, ]*|\1$ESCAPED_DATE|" index.html
+          # Add a space after the date before parentheses
+          sed -i "s|\(<p id=\"last-updated\">Updated \)[A-Za-z0-9, ]*|\1$ESCAPED_DATE |" index.html
 
       - name: Commit updated index.html
         run: |
