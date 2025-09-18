@@ -454,6 +454,17 @@ function showVoicelineDetail(imgElement) {
     if (characterGallery) {
       currentCharacterGallery = dynamicContent.innerHTML;
       backButtonHandler = returnToMainGallery;
+	  
+	characterGallery.querySelectorAll('a').forEach(item => {
+      const value = item.dataset.value; // e.g., "0", "00", "000"
+      if (!value) return;
+
+      const overlay = document.createElement('img');
+      overlay.src = `assets/overlay${value}.png`; // path to your overlay image
+      overlay.alt = 'Overlay';
+      overlay.classList.add('overlay-img');
+      item.appendChild(overlay);
+    });
     }
   }
 </script>
