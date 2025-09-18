@@ -116,7 +116,8 @@ button,
 .character-gallery {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 20px;
+  column-gap: 20px;
+  row-gap: 30px;
   padding: 20px;
   width: 100%;
 }
