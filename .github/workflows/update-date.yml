@@ -1,11 +1,11 @@
 name: Update Last Commit Date
 permissions:
-  contents: write  # allows workflow to push changes
+  contents: write
 
 on:
   push:
     branches:
-      - main
+      - main  
 
 jobs:
   update-date:
@@ -17,36 +17,33 @@ jobs:
       - name: Get latest commit date with ordinal
         id: commit_date
         run: |
-          # Get only the commit's ISO date
-          COMMIT_DATE=$(git show -s --format=%ci HEAD)
+          # Extract day, month, year
+          DAY=$(git log -1 --format=%cd --date=format:'%d')
+          MONTH=$(git log -1 --format=%cd --date=format:'%b')
+          YEAR=$(git log -1 --format=%cd --date=format:'%Y')
 
-          DAY=$(date -d "$COMMIT_DATE" +%d)
-          MONTH=$(date -d "$COMMIT_DATE" +%b)
-          YEAR=$(date -d "$COMMIT_DATE" +%Y)
+          # Remove leading zero from day
+          DAY=$(echo $DAY | sed 's/^0//')
 
-          # Remove leading zero
-          DAY=${DAY#0}
-
-          # Add ordinal suffix
-          if [[ "$DAY" == 1 || "$DAY" == 21 || "$DAY" == 31 ]]; then
+          # Determine ordinal suffix
+          if [ $DAY -eq 1 ] || [ $DAY -eq 21 ] || [ $DAY -eq 31 ]; then
             SUFFIX="st"
-          elif [[ "$DAY" == 2 || "$DAY" == 22 ]]; then
+          elif [ $DAY -eq 2 ] || [ $DAY -eq 22 ]; then
             SUFFIX="nd"
-          elif [[ "$DAY" == 3 || "$DAY" == 23 ]]; then
+          elif [ $DAY -eq 3 ] || [ $DAY -eq 23 ]; then
             SUFFIX="rd"
           else
             SUFFIX="th"
           fi
 
-          LAST_COMMIT_DATE="$MONTH $DAY$SUFFIX, $YEAR"
-          echo "LAST_COMMIT_DATE=$LAST_COMMIT_DATE" >> $GITHUB_ENV
+          # Construct formatted date
+          FORMATTED_DATE="$MONTH $DAY$SUFFIX, $YEAR"
+          echo "LAST_COMMIT_DATE=$FORMATTED_DATE" >> $GITHUB_ENV
+          echo "Latest commit date: $FORMATTED_DATE"
 
-      - name: Replace only the date in last-updated
+      - name: Replace only the date
         run: |
-          # Escape special characters for sed
-          ESCAPED_DATE=$(printf '%s\n' "$LAST_COMMIT_DATE" | sed 's/[\/&]/\\&/g')
-          # Add a space after the date before parentheses
-          sed -i "s|\(<p id=\"last-updated\">Updated \)[A-Za-z0-9, ]*|\1$ESCAPED_DATE |" index.html
+          sed -i "s/\(Updated \)[A-Za-z0-9, ]*/\1$LAST_COMMIT_DATE/" index.html
 
       - name: Commit updated index.html
         run: |
