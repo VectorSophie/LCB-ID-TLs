@@ -765,6 +765,19 @@ body {
   pointer-events: none; /* allows clicks to pass through */
 }
 
+.character-gallery a .character-title {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  font-family: 'Mikodacs', sans-serif;
+  font-size: 90%;       /* relative to image container */
+  color: white;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+  z-index: 20;
+  pointer-events: none;
+  direction: rtl;
+  text-align: right;
+}
 
 .season-tags {
   position: absolute;
