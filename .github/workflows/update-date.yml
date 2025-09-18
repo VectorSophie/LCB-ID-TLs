@@ -1,6 +1,6 @@
 name: Update Last Commit Date
 permissions:
-  contents: write
+  contents: write  # allows workflow to push changes
 
 on:
   push:
@@ -17,10 +17,12 @@ jobs:
       - name: Get latest commit date with ordinal
         id: commit_date
         run: |
-          # Get day, month, year from latest commit (ISO format)
-          DAY=$(date -d "$(git log -1 --date=iso --format=%cd)" +%d)
-          MONTH=$(date -d "$(git log -1 --date=iso --format=%cd)" +%b)
-          YEAR=$(date -d "$(git log -1 --date=iso --format=%cd)" +%Y)
+          # Get ISO 8601 date from latest commit
+          COMMIT_DATE=$(git log -1 --format=%ci)
+
+          DAY=$(date -d "$COMMIT_DATE" +%d)
+          MONTH=$(date -d "$COMMIT_DATE" +%b)
+          YEAR=$(date -d "$COMMIT_DATE" +%Y)
 
           # Remove leading zero from day
           DAY=${DAY#0}
@@ -41,6 +43,7 @@ jobs:
 
       - name: Replace only the date in last-updated
         run: |
+          # Escape special characters for sed
           ESCAPED_DATE=$(printf '%s\n' "$LAST_COMMIT_DATE" | sed 's/[\/&]/\\&/g')
           sed -i "s|\(<p id=\"last-updated\">Updated \)[A-Za-z0-9, ]*|\1$ESCAPED_DATE|" index.html
 
