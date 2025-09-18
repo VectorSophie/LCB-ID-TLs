@@ -747,8 +747,15 @@ body {
 .character-gallery a {
   position: relative;
   display: inline-block;
+  transition: transform 0.3s ease; /* smooth scaling */
 }
 
+.character-gallery a:hover {
+  transform: scale(1.1); /* scales everything inside */
+  z-index: 30;
+}
+
+/* individual images now just fill the container */
 .character-gallery a img {
   display: block;
   width: 100%;
@@ -767,16 +774,17 @@ body {
 
 .character-gallery a .character-title {
   position: absolute;
-  bottom: 5%;
-  right: 5%;
+  bottom: 10%;
+  left: 10%;
   font-family: 'Mikodacs', sans-serif;
-  font-size: 90%;       /* relative to image container */
+  font-size: 90%;
   color: white;
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
   z-index: 20;
   pointer-events: none;
-  direction: rtl;
-  text-align: right;
+  text-align: left;
+  max-width: 80%
+  word-break: break-word;
 }
 
 .season-tags {
@@ -798,6 +806,7 @@ body {
   letter-spacing: 0.05em;
   text-shadow: 0 0 5px rgba(0,0,0,0.7);
 }
+
 
 /* season classes now only set text color */
 .season-1 { color: #cf0000; } 
