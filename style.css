@@ -117,7 +117,7 @@ button,
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   column-gap: 20px;
-  row-gap: 30px;
+  row-gap: 40px;
   padding: 20px;
   width: 100%;
 }
@@ -670,10 +670,11 @@ body {
  
    .image-gallery,
    .character-gallery {
-     grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
-     gap: 10px;
+     grid-template-columns: repeat(2, 1fr);
+     column-gap: 20px;
+     row-gap: 40px;
      padding: 0;
-     margin-left: 0; /* Remove left margin */
+     margin-left: 0;
    }
  
    /* Ensure full width for gallery items */
