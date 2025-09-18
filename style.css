@@ -774,8 +774,8 @@ body {
 
 .character-gallery a .character-title {
   position: absolute;
-  bottom: 5%;
-  left: 5%;
+  bottom: 10%;
+  left: 10%;
   font-family: 'Mikodacs', sans-serif;
   font-size: 90%;
   color: white;
