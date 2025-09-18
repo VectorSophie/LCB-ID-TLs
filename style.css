@@ -790,6 +790,7 @@ body {
 
 .season-tags {
   position: absolute;
+  pointer-events: none;
   top: 8px;
   left: 8px;
   display: flex;       
