@@ -761,6 +761,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+  scale: 109%;
   pointer-events: none; /* allows clicks to pass through */
 }
 

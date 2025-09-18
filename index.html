@@ -508,22 +508,6 @@ function showVoicelineDetail(imgElement) {
   });
 </script>
 
-
-<script>
-document.querySelectorAll('.character-gallery a').forEach(item => {
-  const value = item.dataset.value; 
-  if (!value) return;
-
-  if (!item.querySelector('.overlay-img')) {
-    const overlay = document.createElement('img');
-    overlay.src = `assets/overlay${value}.png`;
-    overlay.alt = 'Overlay';
-    overlay.classList.add('overlay-img');
-    item.appendChild(overlay);
-  }
-});
-</script>
-
 <style>
   #music-toggle {
     position: fixed;
