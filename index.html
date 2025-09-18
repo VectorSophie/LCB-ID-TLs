@@ -518,19 +518,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const characterGallery = document.querySelector('.character-gallery');
   if (!characterGallery) return;
 
-  characterGallery.querySelectorAll('a').forEach(item => {
+  // Add overlays before showing the gallery
+  const items = characterGallery.querySelectorAll('a');
+  items.forEach(item => {
     const value = item.dataset.value; // e.g., "0", "00", "000"
     if (!value) return;
 
-    // Avoid adding multiple overlays if already exists
-    if (item.querySelector('.overlay-img')) return;
-
-    const overlay = document.createElement('img');
-    overlay.src = `assets/overlay${value}.png`; // path to your overlay image
-    overlay.alt = 'Overlay';
-    overlay.classList.add('overlay-img');
-    item.appendChild(overlay);
+    // Only create if not already present
+    if (!item.querySelector('.overlay-img')) {
+      const overlay = document.createElement('img');
+      overlay.src = `assets/overlay${value}.png`;
+      overlay.alt = 'Overlay';
+      overlay.classList.add('overlay-img');
+      item.appendChild(overlay);
+    }
   });
+
+  // Show gallery after all overlays appended
+  characterGallery.style.visibility = 'visible';
 });
 </script>
 </body>
