@@ -775,15 +775,16 @@ body {
 .character-gallery a .character-title {
   position: absolute;
   bottom: 5%;
-  right: 5%;
+  left: 5%;
   font-family: 'Mikodacs', sans-serif;
   font-size: 90%;
   color: white;
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
   z-index: 20;
   pointer-events: none;
-  direction: rtl;
-  text-align: right;
+  text-align: left;
+  max-width: 80%
+  word-break: break-word;
 }
 
 .season-tags {
