@@ -752,6 +752,7 @@ body {
 
 .character-gallery a:hover {
   transform: scale(1.1); /* scales everything inside */
+  z-index: 30;
 }
 
 /* individual images now just fill the container */
