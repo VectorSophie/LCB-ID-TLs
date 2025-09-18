@@ -513,27 +513,25 @@ function showVoicelineDetail(imgElement) {
     height: 40px;
   }
 </style>
-
 <script>
-  // Wait until the DOM is ready
-  document.addEventListener('DOMContentLoaded', () => {
-    // Select all character gallery links
-    const galleryItems = document.querySelectorAll('.character-gallery a');
+document.addEventListener('DOMContentLoaded', () => {
+  const characterGallery = document.querySelector('.character-gallery');
+  if (!characterGallery) return;
 
-    galleryItems.forEach(item => {
-      // Check if overlay already exists
-      if (!item.querySelector('.overlay-img')) {
-        // Create overlay image
-        const overlay = document.createElement('img');
-        overlay.src = 'assets/overlay000.png'; // your overlay image
-        overlay.classList.add('overlay-img');
+  characterGallery.querySelectorAll('a').forEach(item => {
+    const value = item.dataset.value; // e.g., "0", "00", "000"
+    if (!value) return;
 
-        // Append overlay to the gallery item
-        item.appendChild(overlay);
-      }
-    });
+    // Avoid adding multiple overlays if already exists
+    if (item.querySelector('.overlay-img')) return;
+
+    const overlay = document.createElement('img');
+    overlay.src = `assets/overlay${value}.png`; // path to your overlay image
+    overlay.alt = 'Overlay';
+    overlay.classList.add('overlay-img');
+    item.appendChild(overlay);
   });
+});
 </script>
-
 </body>
 </html>
