@@ -454,17 +454,6 @@ function showVoicelineDetail(imgElement) {
     if (characterGallery) {
       currentCharacterGallery = dynamicContent.innerHTML;
       backButtonHandler = returnToMainGallery;
-	  
-	characterGallery.querySelectorAll('a').forEach(item => {
-      const value = item.dataset.value; // e.g., "0", "00", "000"
-      if (!value) return;
-
-      const overlay = document.createElement('img');
-      overlay.src = `assets/overlay${value}.png`; // path to your overlay image
-      overlay.alt = 'Overlay';
-      overlay.classList.add('overlay-img');
-      item.appendChild(overlay);
-    });
     }
   }
 </script>
@@ -524,6 +513,27 @@ function showVoicelineDetail(imgElement) {
     height: 40px;
   }
 </style>
+
+<script>
+  // Wait until the DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    // Select all character gallery links
+    const galleryItems = document.querySelectorAll('.character-gallery a');
+
+    galleryItems.forEach(item => {
+      // Check if overlay already exists
+      if (!item.querySelector('.overlay-img')) {
+        // Create overlay image
+        const overlay = document.createElement('img');
+        overlay.src = 'assets/overlay000.png'; // your overlay image
+        overlay.classList.add('overlay-img');
+
+        // Append overlay to the gallery item
+        item.appendChild(overlay);
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
