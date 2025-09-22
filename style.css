@@ -823,6 +823,38 @@ body {
   text-shadow: 0 0 5px rgba(0,0,0,0.7);
 }
 
+.character-voice.spoiler img {
+  filter: blur(8px);
+  transition: filter 0.3s ease;
+}
+
+.character-voice.revealed img {
+  filter: none;
+}
+
+/* Body blur for background */
+body.blurred-bg {
+  filter: blur(12px);
+  transition: filter 0.3s ease;
+}
+
+body.bg-revealed {
+  filter: none;
+}
+
+/* Reveal button styling */
+.reveal-button {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  z-index: 10;
+  background: #000c;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
 
 /* season classes now only set text color */
 .season-1 { color: #cf0000; } 
