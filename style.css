@@ -798,7 +798,7 @@ body {
   z-index: 20;
   pointer-events: none;
   text-align: left;
-  max-width: 80%
+  max-width: 80%;
   word-break: break-word;
 }
 
@@ -823,38 +823,29 @@ body {
   text-shadow: 0 0 5px rgba(0,0,0,0.7);
 }
 
-.character-voice.spoiler img {
-  filter: blur(8px);
-  transition: filter 0.3s ease;
+.character-voice {
+  position: relative; /* needed so absolute children are positioned relative to this */
 }
 
-.character-voice.revealed img {
-  filter: none;
-}
-
-/* Body blur for background */
-body.blurred-bg {
-  filter: blur(12px);
-  transition: filter 0.3s ease;
-}
-
-body.bg-revealed {
-  filter: none;
-}
-
-/* Reveal button styling */
 .reveal-button {
   position: absolute;
-  bottom: 5px;
-  right: 5px;
-  z-index: 10;
-  background: #000c;
-  color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* center perfectly */
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  background: rgba(0,0,0,0.6);
+  color: white;
   border: none;
-  padding: 4px 8px;
+  border-radius: 6px;
   cursor: pointer;
-  border-radius: 4px;
+  z-index: 10;
 }
+
+.reveal-button:hover {
+  background: rgba(0,0,0,0.8);
+}
+
 
 /* season classes now only set text color */
 .season-1 { color: #cf0000; } 
